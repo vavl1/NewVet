@@ -1,0 +1,44 @@
+﻿@using Vet.Areas.Admin.Models;@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = "_Layout";
+}
+@model List<AnimalOwnerModel>
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="font-weight-bold mb-0">Владельцы животных</h4>
+            </div>
+            <div>
+                <a href="/Admin/AnimalOwner/AddAnimalOwner" class="btn btn-primary btn-icon-text btn-rounded">
+                    <i class="ti-face-smile  btn-icon-prepend"></i>Добавить владельца
+                </a>
+            </div>
+        </div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="card-title">@(item?.Name + " " + item?.LastName + " " + item?.FatherName)</h4>
+                    <p class="card-description">
+                        телефон:  @item?.Phone
+                    </p>
+                    <p class="card-description">
+                        количество животных:  @item?.CountAnimals
+                    </p>
+                    <a href="/Admin/AnimalOwner/DetailsAnimalOwner/@(item?.Id)" class="btn btn-outline-primary btn-fw">Просмотреть</a>
+                    <a href="/Admin/AnimalOwner/DeleteAnimalOwner/@(item?.Id)" class="btn btn-outline-danger btn-fw">Удалить</a>
+
+
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

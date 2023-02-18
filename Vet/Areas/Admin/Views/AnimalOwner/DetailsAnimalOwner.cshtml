@@ -1,0 +1,151 @@
+﻿@using Entities;
+@using System.Web;
+@using Newtonsoft.Json;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+    var mail = ViewBag.Mail as List<SelectListItem>;
+    var animalOwnerId = ViewBag.AnimalOwnerId as int?;
+}
+@model List<AnimalEntity>
+
+
+<div class="row" >
+    @foreach (var item in Model)
+    {
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title"></h4>
+                        <p class="card-description" >
+                            Кличка: @item.NickName
+                        </p>
+                        <p class="card-description" >
+                            Порода: @item.Breed
+                        </p>
+                        <p class="card-description" >
+                            Дата рождения:@item.Birthay
+                        </p>
+                        <p class="card-description">
+
+                        </p>
+                        <a  class="btn btn-outline-primary btn-fw" id="delete"asp-area="Admin" asp-controller="AnimalOwner" asp-action="DeleteAnimal" asp-route-id="@item.Id" asp-route-ownerId="@item.AnimalOwner">Удалить</a>
+
+
+
+                    </div>
+                </div>
+            </div>
+    }
+
+</div>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form">
+                <div class="modal-body">
+
+                    <input type="hidden" name="Id" value="0" />
+                    <input type="hidden" name="VetId" />
+                    <input type="hidden" name="AnimalOwner" value="@animalOwnerId" />
+
+                    <div class="card-body">
+                        <h4 class="card-title">Создание питомца</h4>
+
+                        <div class="form-group">
+                            <label>Кличка</label>
+                            <input type="text" class="form-control form-control-lg" placeholder="Username" aria-label="Username" name="NickName">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Пол</label>
+                            <select class="form-control" id="exampleSelectGender" name="Gender" asp-items="@mail">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Порода</label>
+                            <input type="text" class="form-control form-control-sm"  name="Breed">
+
+                        </div>
+                        <div class="form-group">
+                            <label>дата рождения</label>
+
+                            <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Birthay" style="width:425px">
+                        </div>
+
+
+
+
+
+
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Button trigger modal -->
+
+@section Scripts{
+        <script type="text/javascript">
+                    $(document).ready(function(){
+                       $('#datetimepicker2').Zebra_DatePicker({
+                direction: 1,
+                inside:false
+            });
+
+              })
+
+            var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model)))")
+            console.log(items);
+            var GiftModel = function () {
+                var self = this;
+                self.animals = ko.observableArray(items);
+
+                self.addAnimal = function (formElement) {
+                    var animal = $(formElement).serialize();
+
+
+                };
+
+                self.removeGift = function (animal) {
+                    self.animals.remove(animal);
+                };
+
+
+            };
+
+
+            ko.applyBindings(new GiftModel());
+            $("#form").submit(function () {
+                var animal = $(this).serialize();
+                $.ajax({
+                    url: '/Admin/AnimalOwner/SaveAnimal',
+                    data: animal,
+                    type: 'POST',
+                    success: function(){
+                       location.reload();
+                    }
+              });
+
+                return false;
+            });
+
+        </script>
+
+}

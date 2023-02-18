@@ -1,0 +1,28 @@
+﻿@model LoginModel
+@{
+    ViewData["Title"] = "Авторизация";
+    Layout = "_LoginLayout";
+}
+
+<div class="text-center" style="margin-top:200px">
+    <div class="form-signin w-40 m-auto" style="max-width:300px">
+        <form asp-controller="Account" asp-action="Login">
+
+            <div class="column-auto">
+                <label asp-for="Login" class="h5 mb-3 fw-normal"></label>
+                <input asp-for="Login" class="form-control mb-3" />
+                <span asp-validation-for="Login" class=" mb-3 fw-normal"></span>
+            </div>
+            <div class="column-auto">
+                <label asp-for="Password" class="h5 mb-3 fw-normal"></label>
+                <input asp-for="Password" type="password" class="form-control mb-3" />
+                <span asp-validation-for="Password" class=" mb-3 fw-normal"></span>
+            </div>
+            <input type="submit" value="войти" class="w-100 btn btn-lg btn-primary" />
+
+
+
+
+        </form>
+    </div>
+</div>
