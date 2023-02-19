@@ -30,9 +30,18 @@
                         <p class="card-description" >
                             Дата рождения:@item.Birthay
                         </p>
-                        <p class="card-description">
-
+                        <p class="card-description" >
+                            пол:@(item.Gender==true?"Мужской":"Женский")
+                        </p> 
+                        <p class="card-description" >
+                            диагноз: @(item.Diagnoses?.Count>0?item.Diagnoses?.FirstOrDefault().Name:"Здоров")
                         </p>
+                    @if (item.Vet != null)
+                    {
+                        <p class="card-description">
+                            лечащий врач: @item.Vet.Name @item.Vet.FatherName
+                        </p>
+                    }
                         <a  class="btn btn-outline-danger btn-fw" id="delete"asp-area="Admin" asp-controller="AnimalOwner" asp-action="DeleteAnimal" asp-route-id="@item.Id" asp-route-ownerId="@item.AnimalOwner" >Удалить</a>
 
 

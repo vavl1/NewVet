@@ -13,7 +13,7 @@ namespace Dal
 {
     public class AnimalDal : BaseDal<DefaultDbContext, Animal, AnimalEntity, int, AnimalSearchParams, object>
     {
-        protected override bool RequiresUpdatesAfterObjectSaving => false;
+        protected override bool RequiresUpdatesAfterObjectSaving => true;
 
         public AnimalDal()
         {
@@ -49,6 +49,9 @@ namespace Dal
 
         protected override async Task<IList<AnimalEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<Animal> dbObjects, object convertParams, bool isFull)
         {
+            dbObjects = dbObjects.Include(i => i.Vet);
+            dbObjects = dbObjects.Include(i => i.Diagnoses);
+            dbObjects = dbObjects.Include(i => i.Treatments);
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -73,6 +76,9 @@ namespace Dal
                 VetId = dbObject.VetId,
                 Breed = dbObject.Breed,
                 AnimalOwner = dbObject.AnimalOwner,
+                Treatments = dbObject.Treatments.Select(TreatmetsDal.ConvertDbObjectToEntity).ToList(),
+                Diagnoses = dbObject.Diagnoses.Select(DiagnosisDal.ConvertDbObjectToEntity).ToList(),
+                Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet)
 
 
             };

@@ -20,6 +20,6 @@ namespace Entities
 
         public string? Adress { get; set; }
 
-        public virtual ICollection<AnimalEntity> Animals { get; } = new List<AnimalEntity>();
+        public virtual ICollection<AnimalEntity> Animals { get; set; } = new List<AnimalEntity>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Dal;
+using Dal.DbModels;
 using Entities;
 using Entities.SearchParams;
 using Microsoft.AspNetCore.Authorization;
@@ -67,6 +68,22 @@ namespace Vet.Areas.Admin.Controllers
             };
             ViewBag.AnimalOwnerId = id;
             var pets = (await new AnimalDal().GetAsync(new AnimalSearchParams() { AnimalOwnerId = id })).Objects.ToList();
+            pets = pets.Select(i => new AnimalEntity
+            {
+                Id = i.Id,
+                AnimalOwner = i.AnimalOwner,
+                VetId = i.VetId,
+                AnimalOwnerNavigation = i.AnimalOwnerNavigation,
+                Birthay = i.Birthay,
+                Gender = i.Gender,
+                Breed = i.Breed,
+                NickName = i.NickName,
+                Treatments = i.Treatments,
+                Vet = i.Vet,
+                Diagnoses = i.Diagnoses.Where(j => j.Date >= i.Treatments.OrderByDescending(k => k.DateStart).FirstOrDefault().DateStart).ToList()
+            }
+
+           ).ToList();
             return View(pets);
         }
         [HttpPost]

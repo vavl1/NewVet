@@ -13,7 +13,7 @@ namespace Dal
 {
     public class AnimalOwnerDal:BaseDal<DefaultDbContext, AnimalOwner, AnimalOwnerEntity, int, AnimalOwnerSearchParams, object>
     {
-        protected override bool RequiresUpdatesAfterObjectSaving => false;
+        protected override bool RequiresUpdatesAfterObjectSaving => true;
 
         public AnimalOwnerDal()
         {
@@ -44,6 +44,7 @@ namespace Dal
 
         protected override async Task<IList<AnimalOwnerEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<AnimalOwner> dbObjects, object convertParams, bool isFull)
         {
+            dbObjects = dbObjects.Include(i => i.Animals);
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -67,6 +68,7 @@ namespace Dal
                 FatherName = dbObject.FatherName,
                 Phone = dbObject.Phone,
                 Adress = dbObject.Adress,
+                Animals = dbObject.Animals.Select(AnimalDal.ConvertDbObjectToEntity).ToList(),
 
 
             };
