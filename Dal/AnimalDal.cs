@@ -72,6 +72,7 @@ namespace Dal
                 Id = dbObject.Id,
                 VetId = dbObject.VetId,
                 Breed = dbObject.Breed,
+                AnimalOwner = dbObject.AnimalOwner,
 
 
             };

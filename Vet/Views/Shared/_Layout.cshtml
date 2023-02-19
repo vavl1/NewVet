@@ -1,8 +1,8 @@
-﻿
-@{
+﻿@{
     var UserId = VetParams.Id;
     var photo = VetParams.Photo;
-}<!DOCTYPE html>
+}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,11 +13,14 @@
     <!-- plugins:css -->
     <link rel="stylesheet" href="~/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="~/vendors/base/vendor.bundle.base.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- endinject -->
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="~/css/style.css">
+
+
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/zebra_datepicker@latest/dist/css/bootstrap/zebra_datepicker.min.css">
     <!-- endinject -->
@@ -29,16 +32,16 @@
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="navbar-brand brand-logo mr-5" style="font-size: 1.1rem" href="/Admin/Vet/Index">Ветеринарная клиника</a>
-                
+
                 <a class="navbar-brand brand-logo-mini" href="/Admin/Vet/Index"><img src="~/images/mainLogo.png" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                     <span class="ti-view-list"></span>
                 </button>
-                
+
                 <ul class="navbar-nav navbar-nav-right">
-                    
+
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                             <img src="@photo" alt="profile" />
@@ -48,16 +51,16 @@
                                 <i class="ti-settings text-primary"></i>
                                 Редактирование профиля
                             </a>
-                             <a class="dropdown-item" href="/Account/Logout">
+                            <a class="dropdown-item" href="/Account/Logout">
                                 <i class="ti-power-off text-primary"></i>
                                 выход
                             </a>
-                            
-                               
-                                   
-                                
-                              
-                            
+
+
+
+
+
+
                         </div>
                     </li>
                 </ul>
@@ -83,18 +86,18 @@
                             <span class="menu-title">Владельцы</span>
                         </a>
                     </li>
-                    
+
                 </ul>
             </nav>
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                     @RenderBody()
-                    
-                    
-                    
-                        
-                   
+                    @RenderBody()
+
+
+
+
+
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
@@ -102,6 +105,8 @@
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.templatewatch.com/" target="_blank">Templatewatch</a>. All rights reserved.</span>
                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+                        
+
                     </div>
                 </footer>
                 <!-- partial -->
@@ -119,20 +124,26 @@
     <!-- End plugin js for this page-->
     <!-- inject:js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="~/js/off-canvas.js"></script>
+
+    <script src="~/js/hoverable-collapse.js"></script>
+
     <script src="~/js/knockout-3.5.1.js"></script>
     <!-- for the most recent version, not recommended in production -->
     <script src="https://cdn.jsdelivr.net/npm/zebra_datepicker@latest/dist/zebra_datepicker.min.js"></script>
-    <script src="~/js/off-canvas.js"></script>
-    <script src="~/js/hoverable-collapse.js"></script>
-@*  //<script src="~/js/template.js"></script>*@
+
+
+    @*  //<script src="~/js/template.js"></script>*@
     <script>
+
         $(function () {
+
             var body = $('body');
             var contentWrapper = $('.content-wrapper');
             var scroller = $('.container-scroller');
             var footer = $('.footer');
             var sidebar = $('.sidebar');// когда страница загружена
-            $('.nav li a',$(".sidebar")).each(function () {      // проходим по нужным нам ссылками
+            $('.nav li a', $(".sidebar")).each(function () {      // проходим по нужным нам ссылками
                 var location = window.location.href // переменная с адресом страницы
                 var link = this.href                // переменная с url ссылки
                 var result = location.match(link);  // результат возвращает объект если совпадение найдено и null при обратном
@@ -160,12 +171,12 @@
             //checkbox and radios
             $(".form-check label,.form-radio label").append('<i class="input-helper"></i>');
 
-        
 
-        // focus input when clicking on search icon
-        $('#navbar-search-icon').click(function () {
-            $("#navbar-search-input").focus();
-        });
+
+            // focus input when clicking on search icon
+            $('#navbar-search-icon').click(function () {
+                $("#navbar-search-input").focus();
+            });
         });
 
     </script>
@@ -174,7 +185,7 @@
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="~/js/dashboard.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     @RenderSection("Scripts", required: false)
     <!-- End custom js for this page-->
 </body>

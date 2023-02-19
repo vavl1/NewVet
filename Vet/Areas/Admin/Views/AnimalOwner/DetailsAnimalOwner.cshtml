@@ -8,6 +8,7 @@
     Layout = "_Layout";
     var mail = ViewBag.Mail as List<SelectListItem>;
     var animalOwnerId = ViewBag.AnimalOwnerId as int?;
+    var items = Model;
 }
 @model List<AnimalEntity>
 
@@ -32,7 +33,7 @@
                         <p class="card-description">
 
                         </p>
-                        <a  class="btn btn-outline-primary btn-fw" id="delete"asp-area="Admin" asp-controller="AnimalOwner" asp-action="DeleteAnimal" asp-route-id="@item.Id" asp-route-ownerId="@item.AnimalOwner">Удалить</a>
+                        <a  class="btn btn-outline-danger btn-fw" id="delete"asp-area="Admin" asp-controller="AnimalOwner" asp-action="DeleteAnimal" asp-route-id="@item.Id" asp-route-ownerId="@item.AnimalOwner" >Удалить</a>
 
 
 
@@ -108,6 +109,20 @@
                 direction: 1,
                 inside:false
             });
+            $("#form").submit(function () {
+                alert("test")
+                var animal = $(this).serialize();
+                $.ajax({
+                    url: '/Admin/AnimalOwner/SaveAnimal',
+                    data: animal,
+                    type: 'POST',
+                    success: function () {
+                        location.reload();
+                    }
+                });
+
+                return false;
+            });
 
               })
 
@@ -132,20 +147,7 @@
 
 
             ko.applyBindings(new GiftModel());
-            $("#form").submit(function () {
-                var animal = $(this).serialize();
-                $.ajax({
-                    url: '/Admin/AnimalOwner/SaveAnimal',
-                    data: animal,
-                    type: 'POST',
-                    success: function(){
-                       location.reload();
-                    }
-              });
-
-                return false;
-            });
-
+          
         </script>
 
 }

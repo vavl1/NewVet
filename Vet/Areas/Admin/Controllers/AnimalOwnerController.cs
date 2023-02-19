@@ -83,15 +83,16 @@ namespace Vet.Areas.Admin.Controllers
 
 
         
-        public async Task DeleteAnimal(int? id, int ownerId)
+        public async Task<ActionResult> DeleteAnimal(int? id, int ownerId)
         {
             if (id != null)
             {
 
                 var animal = await new AnimalDal().DeleteAsync(id.GetValueOrDefault());
+                
 
             }
-
+          return  Redirect("/Admin/AnimalOwner/DetailsAnimalOwner/" + ownerId);
 
 
         }
