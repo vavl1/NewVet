@@ -18,10 +18,10 @@ namespace Entities
 
         public string? Description { get; set; }
 
-        public virtual Animal? Animal { get; set; }
+        public virtual AnimalEntity? Animal { get; set; }
 
-        public virtual Treatment? Treatment { get; set; }
+        public virtual TreatmentEntity? Treatment { get; set; }
 
-        public virtual Vet? Vet { get; set; }
+        public virtual VetEntity? Vet { get; set; }
     }
 }
