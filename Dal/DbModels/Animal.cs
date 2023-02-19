@@ -23,6 +23,8 @@ public partial class Animal
 
     public virtual ICollection<Diagnosis> Diagnoses { get; } = new List<Diagnosis>();
 
+    public virtual ICollection<Inspection> Inspections { get; } = new List<Inspection>();
+
     public virtual ICollection<Treatment> Treatments { get; } = new List<Treatment>();
 
     public virtual Vet? Vet { get; set; }

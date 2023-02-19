@@ -21,6 +21,8 @@ public partial class DefaultDbContext : DbContext
 
     public virtual DbSet<Diagnosis> Diagnoses { get; set; }
 
+    public virtual DbSet<Inspection> Inspections { get; set; }
+
     public virtual DbSet<Treatment> Treatments { get; set; }
 
     public virtual DbSet<Vet> Vets { get; set; }
@@ -66,6 +68,23 @@ public partial class DefaultDbContext : DbContext
             entity.HasOne(d => d.Vet).WithMany(p => p.Diagnoses)
                 .HasForeignKey(d => d.VetId)
                 .HasConstraintName("FK__Diagnoses__VetId__182C9B23");
+        });
+
+        modelBuilder.Entity<Inspection>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Inspecti__3214EC07343785B8");
+
+            entity.HasOne(d => d.Animal).WithMany(p => p.Inspections)
+                .HasForeignKey(d => d.AnimalId)
+                .HasConstraintName("FK__Inspectio__Anima__37A5467C");
+
+            entity.HasOne(d => d.Treatment).WithMany(p => p.Inspections)
+                .HasForeignKey(d => d.TreatmentId)
+                .HasConstraintName("FK__Inspectio__Treat__38996AB5");
+
+            entity.HasOne(d => d.Vet).WithMany(p => p.Inspections)
+                .HasForeignKey(d => d.VetId)
+                .HasConstraintName("FK__Inspectio__VetId__36B12243");
         });
 
         modelBuilder.Entity<Treatment>(entity =>
