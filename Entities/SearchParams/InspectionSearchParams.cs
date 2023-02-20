@@ -8,5 +8,7 @@ namespace Entities.SearchParams
 {
     public class InspectionSearchParams:BaseSearchParams
     {
+        public int? VetId { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

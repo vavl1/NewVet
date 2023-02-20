@@ -38,7 +38,10 @@ namespace Dal
 
         protected override Task<IQueryable<Treatment>> BuildDbQueryAsync(DefaultDbContext context, IQueryable<Treatment> dbObjects, TreatmentSearchParams searchParams)
         {
-
+            if (searchParams.VetId != null)
+            {
+                dbObjects = dbObjects.Where(i => i.VetId == searchParams.VetId);
+            }
 
             return Task.FromResult(dbObjects);
         }

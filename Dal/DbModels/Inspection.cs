@@ -14,6 +14,7 @@ public partial class Inspection
     public int? TreatmentId { get; set; }
 
     public string? Description { get; set; }
+    public DateTime? Date { get; set; }
 
     public virtual Animal? Animal { get; set; }
 

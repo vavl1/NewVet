@@ -25,17 +25,25 @@ namespace Dal
 
         protected override Task UpdateBeforeSavingAsync(DefaultDbContext context, InspectionEntity entity, Inspection dbObject, bool exists)
         {
-            dbObject.AnimalId = dbObject.AnimalId;
-            dbObject.TreatmentId = dbObject.TreatmentId;
-            dbObject.VetId = dbObject.VetId;
-            dbObject.Description = dbObject.Description;
+            dbObject.AnimalId = entity.AnimalId;
+            dbObject.TreatmentId = entity.TreatmentId;
+            dbObject.VetId = entity.VetId;
+            dbObject.Description = entity.Description;
+            dbObject.Date = entity.Date;
 
             return Task.CompletedTask;
         }
 
         protected override Task<IQueryable<Inspection>> BuildDbQueryAsync(DefaultDbContext context, IQueryable<Inspection> dbObjects, InspectionSearchParams searchParams)
         {
-
+            if (searchParams.VetId != null)
+            {
+                dbObjects = dbObjects.Where(i => i.VetId == searchParams.VetId);
+            }
+            if (searchParams.Date != null)
+            {
+                dbObjects = dbObjects.Where(i => i.Date == searchParams.Date);
+            }
 
             return Task.FromResult(dbObjects);
         }
@@ -65,6 +73,7 @@ namespace Dal
              Description = dbObject.Description,
                 AnimalId = dbObject.AnimalId,
                 VetId = dbObject.VetId,
+                Date = dbObject.Date
 
 
             };

@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace Entities.SearchParams
 {    public  class TreatmentSearchParams:BaseSearchParams
     {
+        public int? VetId { get;set; }
     }
 }
