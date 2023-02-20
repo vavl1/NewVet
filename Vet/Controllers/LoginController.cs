@@ -39,7 +39,9 @@ namespace Vet.Controllers
                         }
                         else
                         {
-                            return Redirect("/Worker/Home/Index");
+                            VetParams.Id = user.Id;
+                            VetParams.Photo = user.PhotoParth;
+                            return Redirect("/Admin/Worker/Index/"+user.Id);
                         }
                     }
                 }

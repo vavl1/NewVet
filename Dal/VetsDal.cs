@@ -39,7 +39,10 @@ namespace Dal
 
         protected override Task<IQueryable<Vet>> BuildDbQueryAsync(DefaultDbContext context, IQueryable<Vet> dbObjects, VetSearchParams searchParams)
         {
-          
+            if (searchParams.Login != null)
+            {
+                dbObjects = dbObjects.Where(i => i.Login == searchParams.Login);
+            }
 
             return Task.FromResult(dbObjects);
         }

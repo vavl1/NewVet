@@ -41,25 +41,7 @@ namespace Vet.Areas.Admin.Controllers
 
             return Redirect("/Admin/Vet/Index");
         }
-        public async Task<IActionResult> EditVet(int id)
-        {
-            var vet = await new VetsDal().GetAsync(id);
-            return View(vet);
-        }
-        [HttpPost]
-        public async Task<IActionResult> EditVet(VetEntity model)
-        {
-            if (ModelState.IsValid)
-            {
-                await new VetsDal().AddOrUpdateAsync(model);
-                return Redirect("/Admin/Vet/Index");
-            }
-            else
-            {
-                return View(model);
-            }
-           
-        }
+       
         public  IActionResult AddVet()
         {
             
