@@ -25,11 +25,11 @@ namespace Dal
 
         protected override Task UpdateBeforeSavingAsync(DefaultDbContext context, TreatmentEntity entity, Treatment dbObject, bool exists)
         {
-            dbObject.AnimalId = dbObject.AnimalId;
-            dbObject.VetId = dbObject.VetId;
-            dbObject.DateEnd = dbObject.DateEnd;
-            dbObject.DateStart = dbObject.DateStart;
-            dbObject.AnimalId = dbObject.AnimalId;
+            dbObject.AnimalId = entity.AnimalId;
+            dbObject.VetId = entity.VetId;
+            dbObject.DateEnd = entity.DateEnd;
+            dbObject.DateStart = entity.DateStart;
+            dbObject.AnimalId = entity.AnimalId;
           
 
 
