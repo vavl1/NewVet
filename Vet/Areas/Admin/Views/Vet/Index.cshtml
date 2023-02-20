@@ -31,6 +31,9 @@
                     <p class="card-description">
                         телефон:  @item?.Phone
                     </p>
+                    <p class="card-description">
+                        <button class="btn btn-outline-primary btn-fw vet" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.Id" >Просмотреть</button>
+                    </p>
                     <a href="/Admin/Vet/DetailsVet/@(item.Id)" class="btn btn-outline-primary btn-fw">Просмотреть</a>
                     <a href="/Admin/Vet/DeleteVet/@(item?.Id)" class="btn btn-outline-danger btn-fw">Удалить</a>
 
@@ -42,3 +45,96 @@
     }
 
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+            </div>
+            <form id="form" action="/Admin/Vet/CreateInspection" method="post" >
+                <div class="modal-body">
+
+                    <input type="hidden" name="Id" value="0" />
+                    <input type="hidden" name="VetId" id="VetId"/>
+                   
+
+                    <div class="card-body">
+                        <h4 class="card-title">Заявка на прием</h4>
+
+                        <div class="form-group">
+                            <label>Владелец</label>
+                            <select class="form-control" id="select2"  asp-items="@ViewBag.AnimalOwners" style="width:450px">
+                            </select>
+                        </div>
+                      
+                        <div class="form-group">
+                            <label>Питомец</label>
+                            <select class="form-control" id="animals"  style="width:450px" name="AnimalId">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>дата приема</label>
+
+                            <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Date" style="width:425px">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Описание</label>
+
+                            <input type="text" class="form-control form-control-sm"  name="Description">
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            $(".vet").click(function () {
+                $("form")[0].reset();
+                var id = $(this).attr("data")
+                alert(id)
+                $("#VetId").val(id)
+            })
+            $('#datetimepicker2').Zebra_DatePicker({
+
+                inside: false,
+                disabled_dates: ['* * * 0,6']
+            });
+            $("#select2").select2({
+                dropdownParent: $("#exampleModal")
+            });
+            $("#animals").select2({
+                dropdownParent: $("#exampleModal")
+            })
+            $("#select2").change(function(){
+                var animal = $(this).val()
+                alert(animal)
+                 $.ajax({
+                    url: '/Admin/Vet/GetAnimalAjax',
+                    data: {id:animal},
+                    type: 'POST',
+                    success: function (data) {
+                        $('#animals').empty();
+                        data = JSON.parse(data)
+                        data.forEach((element) => {
+                            console.log(element)
+                            $('#animals').append('<option value="' + element["Id"] + '">' + element["NickName"] + '</option>')
+            
+                        })
+                    }
+                });
+            })
+        })
+    </script>
+}
