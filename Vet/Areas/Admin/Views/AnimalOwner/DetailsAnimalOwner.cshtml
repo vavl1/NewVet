@@ -33,11 +33,12 @@
                         <p class="card-description" >
                             пол:@(item.Gender==true?"Мужской":"Женский")
                         </p> 
+                         @if (item.Vet != null){
                         <p class="card-description" >
-                            диагноз: @(item.Diagnoses?.Count>0?item.Diagnoses?.FirstOrDefault().Name:"Здоров")
+                            диагноз: @(item.Diagnoses?.FirstOrDefault().Name)
                         </p>
-                    @if (item.Vet != null)
-                    {
+                   
+                    
                         <p class="card-description">
                             лечащий врач: @item.Vet.Name @item.Vet.FatherName
                         </p>
