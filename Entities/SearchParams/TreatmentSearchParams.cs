@@ -8,5 +8,6 @@ namespace Entities.SearchParams
 {    public  class TreatmentSearchParams:BaseSearchParams
     {
         public int? VetId { get;set; }
+        public int? AnimalId { get;set; }
     }
 }

@@ -68,6 +68,7 @@ namespace Vet.Areas.Admin.Controllers
             };
             ViewBag.AnimalOwnerId = id;
             var pets = (await new AnimalDal().GetAsync(new AnimalSearchParams() { AnimalOwnerId = id })).Objects.ToList();
+            
             pets = pets.Select(i => new AnimalEntity
             {
                 Id = i.Id,
@@ -80,7 +81,7 @@ namespace Vet.Areas.Admin.Controllers
                 NickName = i.NickName,
                 Treatments = i.Treatments,
                 Vet = i.Vet,
-                Diagnoses = i.Diagnoses.Where(j => j.Date >= i.Treatments.OrderByDescending(k => k.DateStart).FirstOrDefault().DateStart).ToList()
+                Diagnoses = i.Diagnoses?.OrderByDescending(j=> j.Date).ToList()
             }
 
            ).ToList();

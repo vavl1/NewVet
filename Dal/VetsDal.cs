@@ -49,6 +49,7 @@ namespace Dal
 
         protected override async Task<IList<VetEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<Vet> dbObjects, object convertParams, bool isFull)
         {
+           
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -74,7 +75,8 @@ namespace Dal
                 RoleType = (RoleType?)dbObject.RoleType,
                 Password = dbObject.Password,
                 Login = dbObject.Login,
-                PhotoParth = dbObject.PhotoParth
+                PhotoParth = dbObject.PhotoParth,
+                
 
 
             };

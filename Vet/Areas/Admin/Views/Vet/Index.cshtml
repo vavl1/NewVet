@@ -32,7 +32,9 @@
                         телефон:  @item?.Phone
                     </p>
                     <p class="card-description">
-                        <button class="btn btn-outline-primary btn-fw vet" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.Id" >Просмотреть</button>
+                        <button class="btn btn-outline-primary btn-fw vet" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.Id" style="
+    margin-left: 40px;
+" >Назначить прием</button>
                     </p>
                     <a href="/Admin/Vet/DetailsVet/@(item.Id)" class="btn btn-outline-primary btn-fw">Просмотреть</a>
                     <a href="/Admin/Vet/DeleteVet/@(item?.Id)" class="btn btn-outline-danger btn-fw">Удалить</a>

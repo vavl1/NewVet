@@ -42,6 +42,10 @@ namespace Dal
             {
                 dbObjects = dbObjects.Where(i => i.VetId == searchParams.VetId);
             }
+            if (searchParams.AnimalId != null)
+            {
+                dbObjects = dbObjects.Where(i => i.AnimalId == searchParams.AnimalId) ;
+            }
 
             return Task.FromResult(dbObjects);
         }
