@@ -10,16 +10,25 @@ namespace Vet.Areas.Admin.Controllers
     [Area("Admin")]
     public class TreatmentController : Controller
     {
+        IWebHostEnvironment test;
+        public TreatmentController(IWebHostEnvironment test)
+        {
+            this.test = test;
+        }
         public async Task<IActionResult> Index()
         {
             var treatment = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams())).Objects.ToList();
             return View(treatment);
         }
         [HttpPost]
-        public async Task<IActionResult> DownLoad(List<TreatmentEntity>? treatments)
+        public async Task DownLoad(List<TreatmentEntity>? treatments)
         {
+            var name = $"data_{DateTime.Now.ToShortDateString()}.xlsx";
+            var parth = "/images/" + name;
             using (var XMLBook = new XLWorkbook())
             {
+                
+               
                 var workSheet = XMLBook.Worksheets.Add("Treatments");
                 workSheet.Cell("A1").Value = "Питомец";
                 workSheet.Cell("B1").Value = "Лечащий врач";
@@ -32,17 +41,22 @@ namespace Vet.Areas.Admin.Controllers
                     workSheet.Cell(i + 2, 3).Value = treatments[i].DateStart;
                     workSheet.Cell(i + 2, 4).Value = treatments[i].DateEnd;
                 }
-                using (var stream = new MemoryStream())
-                {
-                    XMLBook.SaveAs(stream);
-                    stream.Flush();
-                    return new FileContentResult(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-                    {
-                        FileDownloadName = $"Treatment_{DateTime.Now.ToShortTimeString()}.xlsx"
-                    };
-                }
+               
+                    XMLBook.SaveAs(test.WebRootPath + parth);
+               
+
             }
-        }      
-        
+           
+        }
+        public async Task<IActionResult> DownLoad()
+        {
+            var name = $"data_{DateTime.Now.ToShortDateString()}.xlsx";
+            var parth = "/images/" + name;
+           
+            var fs = new FileStream(test.WebRootPath + parth, FileMode.Open);
+            var td = File(fs, "application/octet-stream", name);
+            return td;
+        }
+
     }
 }

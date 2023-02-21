@@ -15,7 +15,7 @@
         </div>
         <div>
             <a href="#" class="btn btn-primary btn-icon-text btn-rounded" id="test">
-                <i class="ti-face-smile  btn-icon-prepend"></i>скачать
+                <i class="ti-save  btn-icon-prepend"></i>скачать
             </a>
         </div>
     </div>
@@ -65,13 +65,39 @@
     <script>
         $(document).ready(function () {
             $("#test").click(function () {
+               
+            });
+            $("#test").click(function () {
                 var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model)))")
                 $.ajax({
                     url: '/Admin/Treatment/Download',
                     data: { treatments: items },
                     type: 'POST',
-                    success: function (data) {
+                    success: function () {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET", "Download/DownloadFile", true);
+                        xhr.responseType = "blob";
+                        xhr.onload = function (e) {
+                            if (this.status == 200) {
+                                var blob = this.response;
 
+                                /* Get filename from Content-Disposition header */
+                                var filename = "";
+                                var disposition = xhr.getResponseHeader('Content-Disposition');
+                                if (disposition && disposition.indexOf('attachment') !== -1) {
+                                    var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                                    var matches = filenameRegex.exec(disposition);
+                                    if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                                }
+
+                                // This does the trick
+                                var a = document.createElement('a');
+                                a.href = window.URL.createObjectURL(blob);
+                                a.download = filename;
+                                a.dispatchEvent(new MouseEvent('click'));
+                            }
+                        }
+                        xhr.send();
                     }
                 });
             })
