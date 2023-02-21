@@ -1,0 +1,80 @@
+﻿@using Entities;
+@using System.Web;
+@using Newtonsoft.Json;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model List<TreatmentEntity>
+<div class="col-md-12 grid-margin">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class="font-weight-bold mb-0">История лечения</h4>
+        </div>
+        <div>
+            <a href="#" class="btn btn-primary btn-icon-text btn-rounded" id="test">
+                <i class="ti-face-smile  btn-icon-prepend"></i>скачать
+            </a>
+        </div>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Питомец
+            </th>
+            <th>
+               Лечащий врач
+            </th>
+            <th>
+                начало лечения
+            </th>
+            <th>
+               Предположительный конец лечения
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+        <tr>
+            <td class="py-1">
+             @item.Animal?.NickName
+            </td>
+            <td>
+                @(item.Vet?.Name+" "+ item.Vet?.FatherName)
+            </td>
+            <td>
+                @item.DateStart
+            </td>
+            <td>
+                    @item.DateEnd
+            </td>
+            <td>
+               
+            </td>
+        </tr>
+       }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#test").click(function () {
+                var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model)))")
+                $.ajax({
+                    url: '/Admin/Treatment/Download',
+                    data: { treatments: items },
+                    type: 'POST',
+                    success: function (data) {
+
+                    }
+                });
+            })
+        })
+    </script>
+}

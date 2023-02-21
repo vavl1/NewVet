@@ -51,7 +51,7 @@ namespace Dal
         {
             dbObjects = dbObjects.Include(i => i.Vet);
             dbObjects = dbObjects.Include(i => i.Diagnoses);
-            dbObjects = dbObjects.Include(i => i.Treatments);
+         
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -76,7 +76,7 @@ namespace Dal
                 VetId = dbObject.VetId,
                 Breed = dbObject.Breed,
                 AnimalOwner = dbObject.AnimalOwner,
-                Treatments = dbObject.Treatments.Select(TreatmetsDal.ConvertDbObjectToEntity).ToList(),
+             
                 Diagnoses = dbObject.Diagnoses.Select(DiagnosisDal.ConvertDbObjectToEntity).ToList(),
                 Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet)
 
