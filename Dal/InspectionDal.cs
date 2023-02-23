@@ -13,7 +13,7 @@ namespace Dal
 {
     public class InspectionDal : BaseDal<DefaultDbContext, Inspection, InspectionEntity, int, InspectionSearchParams, object>
     {
-        protected override bool RequiresUpdatesAfterObjectSaving => false;
+        protected override bool RequiresUpdatesAfterObjectSaving => true;
 
         public InspectionDal()
         {
@@ -50,6 +50,7 @@ namespace Dal
 
         protected override async Task<IList<InspectionEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<Inspection> dbObjects, object convertParams, bool isFull)
         {
+            dbObjects = dbObjects.Include(i => i.Animal);
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -73,8 +74,8 @@ namespace Dal
              Description = dbObject.Description,
                 AnimalId = dbObject.AnimalId,
                 VetId = dbObject.VetId,
-                Date = dbObject.Date
-
+                Date = dbObject.Date,
+                Animal = AnimalDal.ConvertDbObjectToEntity(dbObject.Animal)
 
             };
         }

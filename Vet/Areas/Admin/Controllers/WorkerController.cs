@@ -13,7 +13,7 @@ namespace Vet.Areas.Admin.Controllers
     {
         public async Task<IActionResult> Index(int? id)
         {
-            var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { VetId = id })).Objects.ToList();
+            var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { VetId = id,Date = DateTime.Now })).Objects.ToList();
             ViewBag.Treatments = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() { VetId = id })).Objects.ToList();
            
             return View(inspections);
