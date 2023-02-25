@@ -31,13 +31,28 @@ namespace Vet.Areas.Admin.Controllers
         }
         public async Task<IActionResult> DeleteVet(int id)
         {
-            await new VetsDal().DeleteAsync(id);
+            try
+            {
+                await new VetsDal().DeleteAsync(id);
+            }
+            catch(Exception ex)
+            {
+
+            }
 
             return Redirect("/Admin/Vet/Index");
         }
         public async Task<IActionResult> DeleteInspection(int id)
         {
-            await new InspectionDal().DeleteAsync(id);
+            try
+            {
+                await new InspectionDal().DeleteAsync(id);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            
 
             return Redirect("/Admin/Vet/Index");
         }

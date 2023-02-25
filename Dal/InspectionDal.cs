@@ -40,10 +40,7 @@ namespace Dal
             {
                 dbObjects = dbObjects.Where(i => i.VetId == searchParams.VetId);
             }
-            if (searchParams.Date != null)
-            {
-                dbObjects = dbObjects.Where(i => i.Date == searchParams.Date);
-            }
+           
 
             return Task.FromResult(dbObjects);
         }

@@ -4,6 +4,7 @@
 
 *@
 @{
+    var vetId = ViewBag.VetId;
     Layout = "_Layout";
     var treatments = ViewBag.Treatments as List<TreatmentEntity>;
 }
@@ -73,7 +74,7 @@
                         Дата начала:  @item.DateStart Дата конца: @item.DateEnd;
                     </p>
 
-                    <a asp-area="Admin" asp-controller="Worker" asp-action="CanselTreatment" asp-route-animalid="@item.AnimalId" asp-route-treatmentid="@item.AnimalId" asp-route-vetid="@item.VetId" class="btn btn-outline-danger btn-fw">Выписать</a>
+                    <a asp-area="Admin" asp-controller="Worker" asp-action="CanselTreatment" asp-route-animalid="@item.AnimalId" asp-route-treatmentid="@item.Id" asp-route-vetid="@item.VetId" class="btn btn-outline-danger btn-fw">Выписать</a>
 
 
                 </div>
@@ -92,7 +93,7 @@
             <form id="form" action="/Admin/Worker/CreateTreatment" method="post">
                 <div class="modal-body">
 
-                    <input type="hidden" name="VetId" value="@Model?.FirstOrDefault().VetId"/>
+                    <input type="hidden" name="VetId" value="@Model?.FirstOrDefault()?.VetId"/>
                     <input type="hidden" name="AnimalId" id="AnimalId"/>
 
                      <div class="form-group">
