@@ -13,41 +13,47 @@
             <p class="card-description">
                 Basic form elements
             </p>
-            <form class="forms-sample" action="/Admin/Profile/EditVet" method="post">
+            <form class="forms-sample " action="/Admin/Profile/EditVet" method="post" >
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="Login" />
                 <input type="hidden" asp-for="Password" />
                 <input type="hidden" asp-for="RoleType" />
                 <div class="form-group">
                     <label for="exampleInputCity1" asp-for="Name"></label>
-                    <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" asp-for="Name">
+                    <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" asp-for="Name" >
+                    <span asp-validation-for="Name" class=" mb-3 fw-normal "></span>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputCity1" asp-for="LastName"></label>
                     <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" asp-for="LastName">
+                    <span asp-validation-for="LastName" class=" mb-3 fw-normal"></span>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputCity1" asp-for="FatherName"></label>
                     <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" asp-for="FatherName">
+                    <span asp-validation-for="FatherName" class=" mb-3 fw-normal"></span>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputCity1" asp-for="Phone"></label>
                     <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" asp-for="Phone">
+                    <span asp-validation-for="Phone" class=" mb-3 fw-normal"></span>
                 </div>
 
 
                 <div class="form-group">
-                    <label>File upload</label>
+                    <label>Изображение</label>
                     <input type="file" name="img[]" class="file-upload-default" id="image">
                     <img src="@Model.PhotoParth" id="im" style="width:100px;height:100px;margin-left: auto; margin-right: auto;  display: block;" />
                     <div class="input-group col-xs-12">
                         <input type="hidden" id="test" asp-for="PhotoParth" />
 
                         <input type="text" class="form-control file-upload-info" asp-for="PhotoParth" disabled placeholder="Upload Image">
+                        
                         <span class="input-group-append">
                             <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                         </span>
                     </div>
+                    <span asp-validation-for="PhotoParth" class=" mb-3 fw-normal"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary mr-2">Сохранить</button>

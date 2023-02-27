@@ -74,7 +74,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Создание питомца</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="form">
+            <form id="form " >
                 <div class="modal-body">
 
                     <input type="hidden" name="Id" value="0" />
@@ -86,7 +86,8 @@
 
                         <div class="form-group">
                             <label>Кличка</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="Username" aria-label="Username" name="NickName">
+                            <input type="text" class="form-control form-control-lg" placeholder="Username" aria-label="Username" name="NickName" required>
+                            
                         </div>
                         <div class="form-group">
                             <label for="exampleSelectGender">Пол</label>
@@ -95,13 +96,13 @@
                         </div>
                         <div class="form-group">
                             <label>Порода</label>
-                            <input type="text" class="form-control form-control-sm"  name="Breed">
+                            <input type="text" class="form-control form-control-sm" name="Breed" required>
 
                         </div>
                         <div class="form-group">
                             <label>дата рождения</label>
 
-                            <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Birthay" style="width:425px">
+                            <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Birthay" style="width:425px" required>
                         </div>
 
 

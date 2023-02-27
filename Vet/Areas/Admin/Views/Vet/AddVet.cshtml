@@ -17,35 +17,42 @@
                 <div class="form-group">
                     <label for="exampleInputCity1" asp-for="Name"></label>
                     <input type="text" class="form-control"  placeholder="Location" asp-for="Name">
+                    <span asp-validation-for="Name" class=" mb-3 fw-normal"></span>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputCity1" asp-for="LastName"></label>
                     <input type="text" class="form-control" placeholder="Location" asp-for="LastName">
+                    <span asp-validation-for="LastName" class=" mb-3 fw-normal"></span>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputCity1" asp-for="FatherName"></label>
                     <input type="text" class="form-control"  placeholder="Location" asp-for="FatherName">
+                    <span asp-validation-for="FatherName" class=" mb-3 fw-normal"></span>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputCity1" asp-for="Phone"></label>
                     <input type="text" class="form-control"  placeholder="Location" asp-for="Phone">
+                    <span asp-validation-for="Phone" class=" mb-3 fw-normal"></span>
                 </div>
                   <div class="form-group">
                     <label for="exampleInputCity1" asp-for="Login"></label>
                     <input type="text" class="form-control"  placeholder="Location" asp-for="Login">
+                    <span asp-validation-for="Login" class=" mb-3 fw-normal"></span>
                 </div>  <div class="form-group">
                     <label for="exampleInputCity1" asp-for="Password"></label>
                     <input type="text" class="form-control"  placeholder="Location" asp-for="Password">
+                    <span asp-validation-for="Password" class=" mb-3 fw-normal"></span>
                 </div>
                  <div class="form-group">
                     <label for="exampleFormControlSelect2" asp-for="RoleType"></label>
                     <select class="form-control" id="exampleFormControlSelect2" asp-for="RoleType" asp-items="@Html.GetEnumSelectList(typeof(RoleType))">
                       
                     </select>
+                    <span asp-validation-for="RoleType" class=" mb-3 fw-normal"></span>
                   </div>
 
                 <div class="form-group">
-                    <label>File upload</label>
+                    <label>Изображение</label>
                     <input type="file" name="img[]" class="file-upload-default" id="image">
                     <img href="" id="im" style="width:100px;height:100px;margin-left: auto; margin-right: auto;  display: block;" />
                     <div class="input-group col-xs-12">
@@ -56,6 +63,7 @@
                             <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                         </span>
                     </div>
+                    <span asp-validation-for="PhotoParth" class=" mb-3 fw-normal"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
