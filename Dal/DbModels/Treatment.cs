@@ -10,7 +10,7 @@ public partial class Treatment
     public int? VetId { get; set; }
 
     public int? AnimalId { get; set; }
-
+    public bool? IsDischarged { get; set; }
     public DateTime? DateStart { get; set; }
 
     public DateTime? DateEnd { get; set; }

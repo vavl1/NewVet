@@ -7,9 +7,17 @@
     var vetId = ViewBag.VetId;
     Layout = "_Layout";
     var treatments = ViewBag.Treatments as List<TreatmentEntity>;
+    var error = ViewData["Error"] as string;
 }
 @model List<InspectionEntity>
 <div class="row">
+    @if(error != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <div class="col-md-12 grid-margin">
        
             <div class="d-flex justify-content-between align-items-center">
@@ -36,12 +44,12 @@
                     <p class="card-description">
                         Описание назначения:  @item.Description
                     </p>
+                   
                     <p class="card-description">
-                        Тип приема: @(item.Animal?.VetId != null ? "Проходит лечение" : "на осмотр")
+                        <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.AnimalId" id="">Назначить лечение</button>
+                        
                     </p>
-                    <p class="card-description">
-                        <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.AnimalId">Назначить лечение</button>
-                    </p>
+                    <a href="/Admin/Worker/CanselInspection?inspectionId=@item.Id&&vetId=@item.VetId" class="btn btn-outline-danger btn-fw priem">закончить осмотр</a>
                     
                    
 
@@ -71,11 +79,15 @@
                         Кличка животного:  @item.Animal?.NickName
                     </p>
                     <p class="card-description">
-                        Дата начала:  @item.DateStart Дата конца: @item.DateEnd;
+                        Дата начала: @(item.DateStart.GetValueOrDefault().ToShortDateString()) 
                     </p>
-
+                    <p class="card-description">
+                      Дата конца: @(item.DateEnd.GetValueOrDefault().ToShortDateString());
+                    </p>
+                     <p class="card-description">
                     <a asp-area="Admin" asp-controller="Worker" asp-action="CanselTreatment" asp-route-animalid="@item.AnimalId" asp-route-treatmentid="@item.Id" asp-route-vetid="@item.VetId" class="btn btn-outline-danger btn-fw">Выписать</a>
-
+                    </p>
+                    <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#CreateInspection" data="@item.AnimalId" data-treatment="@item.Id" data-VetId="@item.VetId">Назначить осмотр</button>
 
                 </div>
             </div>
@@ -93,7 +105,7 @@
             <form id="form" action="/Admin/Worker/CreateTreatment" method="post">
                 <div class="modal-body">
 
-                    <input type="hidden" name="VetId" value="@Model?.FirstOrDefault()?.VetId"/>
+                    <input type="hidden" name="VetId" value="@(Model?.FirstOrDefault()?.VetId)"/>
                     <input type="hidden" name="AnimalId" id="AnimalId"/>
 
                      <div class="form-group">
@@ -122,6 +134,45 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="CreateInspection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formInspection" action="/Admin/Worker/CreateInspection" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" value="0"/>
+                    <input type="hidden" name="TreatmentId" id="TreatmentId" />
+                    <input type="hidden" name="VetId" value="@(Model?.FirstOrDefault()?.VetId)" id="VetIdInspection" />
+                    <input type="hidden" name="AnimalId" id="AnimalIdInspection" />
+
+                    <div class="form-group">
+                        <label>дата приема </label>
+
+                        <input type="text" class="form-control form-control-sm" id="datetimepicker" name="Date" style="width:425px">
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <label>Описание</label>
+
+                        <input type="text" class="form-control form-control-sm" name="Description">
+                    </div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script>
@@ -134,8 +185,14 @@
             $('#datetimepickerEnd').Zebra_DatePicker({
                 direction: 1
             });
+            $('#datetimepicker').Zebra_DatePicker({
+                direction: 1
+            });
             $(".priem").click(function(){
                 $("#AnimalId").val($(this).attr("data"));
+                $("#TreatmentId").val($(this).attr("data-treatment"));
+                $("#AnimalIdInspection").val($(this).attr("data"));
+                $("#VetIdInspection").val($(this).attr("data-VetId"));
             })
         })
        

@@ -28,5 +28,6 @@ namespace Entities
         public virtual ICollection<DiagnosisEntity> Diagnoses { get; } = new List<DiagnosisEntity>();
 
         public virtual ICollection<TreatmentEntity> Treatments { get; set; } = new List<TreatmentEntity>();
+        public virtual ICollection<InspectionEntity> Inspections { get; set; } = new List<InspectionEntity>();
     }
 }

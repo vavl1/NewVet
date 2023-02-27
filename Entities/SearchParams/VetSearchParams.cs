@@ -9,5 +9,6 @@ namespace Entities.SearchParams
    public class VetSearchParams:BaseSearchParams
     {
         public string Login { get; set; }
+        
     }
 }

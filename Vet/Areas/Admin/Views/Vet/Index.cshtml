@@ -8,12 +8,47 @@
 }
 @model List<VetEntity>
 <div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="font-weight-bold mb-0">Поиск</h4>
+               
+                    <div>
 
+                    <input type="text" class="form-control form-control-sm" id="searchDate" value="@ViewBag.Date" style="width:200px">
+
+                    </div>
+                    
+                </div>
+            <div>
+                
+                <div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Свободные ветеринары</label>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                <a class="btn btn-primary btn-icon-text btn-rounded" id="search">
+                    <i class="ti-face-smile  btn-icon-prepend"></i>поиск
+                </a>
+            </div>
+           
+
+
+            
+           
+        </div>
+    </div>
     <div class="col-md-12 grid-margin">
         <div class="d-flex justify-content-between align-items-center">
             <div>
                 <h4 class="font-weight-bold mb-0">Ветеринары</h4>
             </div>
+
+           
             <div>
                 <a href="/Admin/Vet/AddVet" class="btn btn-primary btn-icon-text btn-rounded">
                     <i class="ti-face-smile  btn-icon-prepend"></i>Добавить ветеринара
@@ -102,7 +137,22 @@
 @section Scripts{
     <script>
         $(document).ready(function(){
-
+            $("#search").on("click", function () {
+                alert("test")
+                var date = $("#searchDate").val();
+                var isFree = false
+                if ($("#flexSwitchCheckDefault").is(":checked")) {
+                   isFree = true
+                }
+                $.ajax({
+                    url: '/Admin/Vet/Index',
+                    data: { date: date, isFree:isFree },
+                  
+                    success: function (data) {
+                       
+                    }
+                });
+            });
             $(".vet").click(function () {
                 $("form")[0].reset();
                 var id = $(this).attr("data")
@@ -110,6 +160,11 @@
                 $("#VetId").val(id)
             })
             $('#datetimepicker2').Zebra_DatePicker({
+
+                inside: false,
+                disabled_dates: ['* * * 0,6']
+            });
+            $('#searchDate').Zebra_DatePicker({
 
                 inside: false,
                 disabled_dates: ['* * * 0,6']

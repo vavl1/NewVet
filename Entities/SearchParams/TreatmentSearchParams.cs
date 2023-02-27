@@ -9,5 +9,6 @@ namespace Entities.SearchParams
     {
         public int? VetId { get;set; }
         public int? AnimalId { get;set; }
+        public bool? IsDischarged { get;set; }
     }
 }

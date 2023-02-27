@@ -30,6 +30,7 @@ namespace Dal
             dbObject.DateEnd = entity.DateEnd;
             dbObject.DateStart = entity.DateStart;
             dbObject.AnimalId = entity.AnimalId;
+            dbObject.IsDischarged = entity.IsDischarged;
           
 
 
@@ -45,6 +46,10 @@ namespace Dal
             if (searchParams.AnimalId != null)
             {
                 dbObjects = dbObjects.Where(i => i.AnimalId == searchParams.AnimalId) ;
+            }
+            if (searchParams.IsDischarged != null)
+            {
+                dbObjects = dbObjects.Where(i => i.IsDischarged != searchParams.IsDischarged);
             }
 
             return Task.FromResult(dbObjects);
@@ -77,6 +82,7 @@ namespace Dal
                DateEnd = dbObject.DateEnd,
                 AnimalId = dbObject.AnimalId,
                 VetId = dbObject.VetId,
+                IsDischarged = dbObject.IsDischarged,
                 Animal = AnimalDal.ConvertDbObjectToEntity(dbObject.Animal),
                 Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet),
                 

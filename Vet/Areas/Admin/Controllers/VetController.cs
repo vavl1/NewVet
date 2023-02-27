@@ -21,12 +21,21 @@ namespace Vet.Areas.Admin.Controllers
             this.test = test;
         }
         
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime? date , bool isFree)
         {
-            var vets = (await new VetsDal().GetAsync(new VetSearchParams())).Objects.ToList();
+            var dateNow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            date = date ?? dateNow;
+                var vets = (await new VetsDal().GetAsync(new VetSearchParams() { })).Objects.ToList();
+            if (isFree)
+            {
+                vets.Where(i => i.Inspections.Where(j => j.Date == date).Count() <= 3);
+            }
+           
             var animals = (await new AnimalOwnerDal().GetAsync(new AnimalOwnerSearchParams())).Objects.Select(i => new SelectListItem { Value = i.Id.ToString(), Text = i.LastName + " " + i.Name + " " + i.FatherName }).ToList();
             animals.Add(new SelectListItem { Selected = true, Text = "выберите запись", Value = null });
             ViewBag.AnimalOwners = animals;
+            ViewBag.Date = date.GetValueOrDefault().ToShortDateString();
+            ViewBag.IsFree = isFree;
             return View(vets);
         }
         public async Task<IActionResult> DeleteVet(int id)

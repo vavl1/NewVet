@@ -13,6 +13,7 @@ namespace Entities
         public int? VetId { get; set; }
 
         public int? AnimalId { get; set; }
+        public bool? IsDischarged { get; set; }
 
         public DateTime? DateStart { get; set; }
 
