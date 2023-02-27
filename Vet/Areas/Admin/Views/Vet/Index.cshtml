@@ -138,7 +138,7 @@
     <script>
         $(document).ready(function(){
             $("#search").on("click", function () {
-                alert("test")
+               
                 var date = $("#searchDate").val();
                 var isFree = false
                 if ($("#flexSwitchCheckDefault").is(":checked")) {
@@ -156,7 +156,7 @@
             $(".vet").click(function () {
                 $("form")[0].reset();
                 var id = $(this).attr("data")
-                alert(id)
+           
                 $("#VetId").val(id)
             })
             $('#datetimepicker2').Zebra_DatePicker({
@@ -177,7 +177,7 @@
             })
             $("#select2").change(function(){
                 var animal = $(this).val()
-                alert(animal)
+              
                  $.ajax({
                     url: '/Admin/Vet/GetAnimalAjax',
                     data: {id:animal},
