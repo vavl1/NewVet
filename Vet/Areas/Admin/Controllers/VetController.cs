@@ -131,7 +131,7 @@ namespace Vet.Areas.Admin.Controllers
         public async Task<ActionResult> DetailsVet(int? id , DateTime? date)
         {
             var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { VetId = id , Date = date })).Objects.ToList();
-            ViewBag.Treatments = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() { VetId = id })).Objects.ToList();
+            ViewBag.Treatments = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() { VetId = id ,IsDischarged= true })).Objects.ToList();
             ViewBag.Date = date;
             return View(inspections);
         }

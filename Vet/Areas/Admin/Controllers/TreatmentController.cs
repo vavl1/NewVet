@@ -1,9 +1,11 @@
 ﻿using ClosedXML.Excel;
 using Dal;
 using Dal.DbModels;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Entities;
 using Entities.SearchParams;
 using Microsoft.AspNetCore.Mvc;
+using Vet.Areas.Admin.Models;
 
 namespace Vet.Areas.Admin.Controllers
 {
@@ -15,10 +17,13 @@ namespace Vet.Areas.Admin.Controllers
         {
             this.test = test;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var treatment = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams())).Objects.ToList();
-            return View(treatment);
+            var pageSize = 5;
+            var treatment = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() { })).Objects.ToList();
+            var count = treatment.Count;
+            var items = treatment.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return View(new PageModel<TreatmentEntity>(count,page,pageSize,items));
         }
         [HttpPost]
         public async Task DownLoad(List<TreatmentEntity>? treatments)

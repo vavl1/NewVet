@@ -1,10 +1,12 @@
 ﻿using Dal;
 using Dal.DbModels;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Entities;
 using Entities.SearchParams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Drawing.Printing;
 using Vet.Areas.Admin.Models;
 
 namespace Vet.Areas.Admin.Controllers
@@ -13,10 +15,13 @@ namespace Vet.Areas.Admin.Controllers
     [Authorize(Roles = "admin")]
     public class AnimalOwnerController : Controller
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page=1)
         {
+            var pageSize = 6;
             var animalOwners = (await new AnimalOwnerDal().GetAsync(new AnimalOwnerSearchParams())).Objects;
-            return View(animalOwners.Select(i => new AnimalOwnerModel
+            var count = animalOwners.Count;
+            var items = animalOwners.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return View(new PageModel<AnimalOwnerModel>(count, page, pageSize, items.Select(i => new AnimalOwnerModel
             {
                 Name = i.Name,
                 Adress = i.Adress,
@@ -25,7 +30,10 @@ namespace Vet.Areas.Admin.Controllers
                 LastName = i.LastName,
                 Phone = i.Phone,
                 CountAnimals = i.Animals.Count
-            }).ToList()) ;
+            }).ToList())); 
+            
+
+
         }
         public IActionResult AddAnimalOwner()
         {

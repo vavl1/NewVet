@@ -39,7 +39,7 @@
                             Порода: @item.Breed
                         </p>
                         <p class="card-description" >
-                            Дата рождения:@item.Birthay
+                            Дата рождения:@(item.Birthay?.ToShortDateString())
                         </p>
                         <p class="card-description" >
                             пол:@(item.Gender==true?"Мужской":"Женский")
