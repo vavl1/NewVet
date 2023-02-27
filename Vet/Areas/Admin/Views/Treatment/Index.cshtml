@@ -87,7 +87,7 @@
                
             });
             $("#test").click(function () {
-                var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model)))")
+                var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model.Objects)))")
                 $.ajax({
                     url: '/Admin/Treatment/Download',
                     data: { treatments: items },

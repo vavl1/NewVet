@@ -43,6 +43,10 @@ namespace Dal
             {
                 dbObjects = dbObjects.Where(i => i.Login == searchParams.Login);
             }
+            if (searchParams.Role != null)
+            {
+                dbObjects = dbObjects.Where(i => i.RoleType == (int)searchParams.Role);
+            }
 
             return Task.FromResult(dbObjects);
         }

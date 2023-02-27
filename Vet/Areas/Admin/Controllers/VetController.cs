@@ -25,7 +25,7 @@ namespace Vet.Areas.Admin.Controllers
         {
             var dateNow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             date = date ?? dateNow;
-                var vets = (await new VetsDal().GetAsync(new VetSearchParams() { })).Objects.ToList();
+                var vets = (await new VetsDal().GetAsync(new VetSearchParams() {Role = RoleType.vet })).Objects.ToList();
             if (isFree)
             {
                 vets.Where(i => i.Inspections.Where(j => j.Date == date).Count() <= 3);
