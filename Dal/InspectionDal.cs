@@ -42,8 +42,13 @@ namespace Dal
             }
             if (searchParams.Date != null)
             {
-                dbObjects = dbObjects.Where(i => i.Date == searchParams.Date);
+                dbObjects = dbObjects.Where(i => i.Date.Value.Year == searchParams.Date.GetValueOrDefault().Year&& i.Date.Value.Month == searchParams.Date.GetValueOrDefault().Month&& i.Date.Value.Day == searchParams.Date.GetValueOrDefault().Day);
             }
+            if(searchParams.CurrentMonth!= null)
+            {
+                dbObjects = dbObjects.Where(i =>  i.Date.Value.Month == searchParams.CurrentMonth.GetValueOrDefault().Month );
+            }
+            
 
             return Task.FromResult(dbObjects);
         }

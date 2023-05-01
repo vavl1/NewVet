@@ -3,6 +3,7 @@ using Entities;
 using Entities.SearchParams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Data;
 using Vet.Areas.Admin.Models;
 
@@ -79,6 +80,31 @@ namespace Vet.Areas.Admin.Controllers
         {
             await new InspectionDal().DeleteAsync(inspectionId);
             return Redirect("/Admin/Worker/Index/" + vetId);
+        }
+        public async Task<string> GetDisableTimes(DateTime? date, int? id)
+        {
+            if (date != null)
+            {
+                var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { Date = date, VetId = id }));
+                var test = inspections.Objects.Select(i => new List<string>() { i.Date.Value.ToShortTimeString(), new TimeSpan(i.Date.Value.TimeOfDay.Hours + 1, i.Date.Value.TimeOfDay.Minutes, i.Date.Value.TimeOfDay.Seconds).ToString() });
+                var td = JsonConvert.SerializeObject(test);
+                return JsonConvert.SerializeObject(test);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+  
+        public async Task<string> GetDisableDates(DateTime? date, int? id)
+        {
+            var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { CurrentMonth = DateTime.Now, VetId = id })).Objects.Select(i => i.Date).ToList();
+            var dates = inspections.GroupBy(i => i.Value.Day);
+            var td = dates.Select(i => new List<string>() { i.FirstOrDefault().Value.ToShortDateString(), i.Count().ToString() });
+            var disableDates = td.Where(i => int.Parse(i[1]) == 9).Select(i => i[0]);
+            return JsonConvert.SerializeObject(disableDates);
+
         }
     }
 }

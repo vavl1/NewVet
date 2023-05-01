@@ -115,6 +115,11 @@
 
                             <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Date" style="width:425px" required>
                         </div>
+                        <div class="form-group">
+                            <label>время приема</label>
+
+                            <input type="text" class="form-control form-control-sm" data-time-format="H:i" id="timepiker" name="Time" style="width:425px" required>
+                        </div>
 
                         <div class="form-group">
                             <label>Описание</label>
@@ -137,6 +142,8 @@
 @section Scripts{
     <script>
         $(document).ready(function(){
+            var td = new Date();
+            alert()
             $("#search").on("click", function () {
                
                 var date = $("#searchDate").val();
@@ -153,17 +160,55 @@
                     }
                 });
             });
+            
+
+        
             $(".vet").click(function () {
+              
                 $("form")[0].reset();
                 var id = $(this).attr("data")
-           
+                $.ajax({
+                    url: '/Admin/Vet/GetDisableDates',
+                    data: { id: id },
+
+                    success: function (data) {
+                        var test = ['* * * 0,6']
+                        test = test.concat(JSON.parse(data));
+                        console.log(test);
+                        $('#datetimepicker2').Zebra_DatePicker({
+
+                            inside: false,
+                            disabled_dates: test,
+                            onChange: function (view, elements) {
+                                console.log(elements);
+                            },
+                            onSelect: function () {
+                                var date = $("#datetimepicker2").val();
+                                
+                                alert("test");
+                                $.ajax({
+                                    url: '/Admin/Vet/GetDisableTimes',
+                                    data: { date: date, id: id },
+
+                                    success: function (data) {
+                                        data = JSON.parse(data)
+
+                                        $('#timepiker').timepicker({
+                                            'step': '60',
+                                            'minTime': '10:00',
+                                            'maxTime': '18:00',
+                                            'disableTimeRanges': data
+
+                                        });
+                                    }
+                                })
+                            }
+                        });
+                    }
+                })
                 $("#VetId").val(id)
             })
-            $('#datetimepicker2').Zebra_DatePicker({
-
-                inside: false,
-                disabled_dates: ['* * * 0,6']
-            });
+          
             $('#searchDate').Zebra_DatePicker({
 
                 inside: false,

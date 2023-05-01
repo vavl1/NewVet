@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 
 namespace Vet.Areas.Admin.Controllers
 {
@@ -86,10 +87,12 @@ namespace Vet.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> CreateInspection(InspectionEntity model)
+        public async Task<IActionResult> CreateInspection(InspectionEntity model, TimeSpan Time)
         {
             if(ModelState.IsValid)
             {
+
+                model.Date = new DateTime(model.Date.Value.Year, model.Date.Value.Month, model.Date.Value.Day, Time.Hours, Time.Minutes, Time.Seconds);
                 await new InspectionDal().AddOrUpdateAsync(model);
             }
             return Redirect("/Admin/Vet/Index");
@@ -107,6 +110,32 @@ namespace Vet.Areas.Admin.Controllers
                 return null;
             }
           
+        }
+        [Authorize(Roles = "admin,vet")]
+        public async Task<string> GetDisableTimes(DateTime? date, int? id)
+        {
+            if (date != null)
+            {
+                var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { Date = date, VetId = id  }));
+                var test = inspections.Objects.Select(i => new List<string>() { i.Date.Value.ToShortTimeString(), new TimeSpan(i.Date.Value.TimeOfDay.Hours+1, i.Date.Value.TimeOfDay.Minutes, i.Date.Value.TimeOfDay.Seconds).ToString() });
+                var td = JsonConvert.SerializeObject(test);
+                return JsonConvert.SerializeObject(test);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        [Authorize(Roles = "admin,vet")]
+        public async Task<string> GetDisableDates(DateTime? date, int? id)
+        {
+            var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() {  CurrentMonth = DateTime.Now, VetId=id })).Objects.Select(i=> i.Date).ToList();
+            var dates = inspections.GroupBy(i => i.Value.Day);
+            var td = dates.Select(i => new List<string>() { i.FirstOrDefault().Value.ToShortDateString(), i.Count().ToString() });
+            var disableDates = td.Where(i => int.Parse(i[1]) == 9).Select(i => i[0]);
+            return JsonConvert.SerializeObject(disableDates);
+
         }
         [HttpPost]
         public async Task<string> AddPhoto(IFormFile File)

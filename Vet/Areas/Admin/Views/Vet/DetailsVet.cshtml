@@ -37,30 +37,36 @@
         </form>
 
     </div>
-    @foreach (var item in Model)
+   
+           
+    @for (var i = 1; i < Model.Count(); i++)
     {
-        <div class="col-md-4 grid-margin stretch-card">
+
+        <div class="col-md-3 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                  
+
                     <p class="card-description">
-                        Кличка животного:  @item.Animal?.NickName
+                        Кличка животного:  @Model[i].Animal?.NickName
                     </p>
                     <p class="card-description">
-                        Описание назначения:  @item.Description
+                        Описание назначения:  @Model[i].Description
                     </p>
                     <p class="card-description">
-                      Тип приема: @(item.Animal?.VetId!=null?"Проходит лечение":"на осмотр")
+                        Тип приема: @(Model[i].Animal?.VetId != null ? "Проходит лечение" : "на осмотр")
                     </p>
-                   
-                    <a href="/Admin/Vet/DeleteInspection/@(item?.Id)" class="btn btn-outline-danger btn-fw">Удалить</a>
+
+                    <a href="/Admin/Vet/DeleteInspection/@(Model[i]?.Id)" class="btn btn-outline-danger btn-fw">Удалить</a>
 
 
                 </div>
             </div>
         </div>
-    }
 
+
+    }
+    
+  
 </div>
 <div class="row">
     <div class="col-md-12 grid-margin">
@@ -81,7 +87,10 @@
                         Кличка животного:  @item.Animal?.NickName
                     </p>
                     <p class="card-description">
-                       Дата начала:  @item.DateStart Дата конца: @item.DateEnd;
+                        Кличка животного:  @item.Animal?.Diagnoses.OrderByDescending(i=> i.Date).FirstOrDefault();
+                    </p>
+                    <p class="card-description">
+                        Дата начала:  @item.DateStart.GetValueOrDefault().ToShortDateString() Дата конца: @item.DateEnd.GetValueOrDefault().ToShortDateString();
                     </p>
 
                   
@@ -100,5 +109,6 @@
             inside: false,
            
         });
+        
     </script>
 }
