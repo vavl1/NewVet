@@ -10,6 +10,10 @@ namespace Entities.SearchParams
     {
         public string? Login { get; set; }
         public RoleType? Role { get; set; }
-        
+        public DateTime? Date { get; set; }
+        public  string? Name { get; set; }
+        public string? LastName { get; set; }
+        public string? FatherName { get; set; }
+
     }
 }

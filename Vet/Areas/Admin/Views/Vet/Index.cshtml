@@ -1,46 +1,71 @@
 ﻿@using Entities;
+@using Entities.SearchParams;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 *@
 @{
     Layout = "_Layout";
+    var search = ViewBag.Search as VetSearchParams;
 }
 @model List<VetEntity>
+<style>
+    div#expand {
+        display: none;
+    }
+</style>
 <div class="row">
+    <div >
     <div class="col-md-12 grid-margin">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <h4 class="font-weight-bold mb-0">Поиск</h4>
-               
+        <form action="/Admin/Vet/Index">
+
+                <h4 class="font-weight-bold mb-0"  id="clickToSearch">Поиск</h4>
+            <div id="expand">
+                <div class="d-flex justify-content-between align-items-center">
+
                     <div>
 
-                    <input type="text" class="form-control form-control-sm" id="searchDate" value="@ViewBag.Date" style="width:200px">
+                        <input type="text" class="form-control form-control-sm" name="date" id="searchDate" value="@ViewBag.Date" style="width:200px">
 
                     </div>
-                    
+
                 </div>
-            <div>
-                
-                <div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Свободные ветеринары</label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+
+                        <div>
+                            <p class="fs-6">Имя</p>
+                                <input type="text" class="form-control form-control-sm" name="Name" value="@search?.Name" style="width:200px">
+
+                        </div>
+                    </div>
+                    <div>
+
+                        <div>
+                            <p class="fs-6">Фамилия</p>
+                            <input type="text" class="form-control form-control-sm" name="LastName" value="@search?.LastName" style="width:200px">
+
+                        </div>
+                    </div>
+                    <div>
+
+                        <div>
+                            <p class="fs-6">Отчество</p>
+                                <input type="text" class="form-control form-control-sm" name="FatherName" value="@search?.FatherName" style="width:200px">
+
+                        </div>
+                    </div>
+                    <div>
+
+                        <button class="btn btn-primary btn-icon-text btn-rounded" type="submit" id="search">
+                            <i class="ti-search  btn-icon-prepend"></i>поиск
+                        </button>
                     </div>
                 </div>
             </div>
-            <div>
-
-                <a class="btn btn-primary btn-icon-text btn-rounded" id="search">
-                    <i class="ti-search  btn-icon-prepend"></i>поиск
-                </a>
-            </div>
-           
-
-
-            
-           
-        </div>
+          
+        </form>
+       
     </div>
     <div class="col-md-12 grid-margin">
         <div class="d-flex justify-content-between align-items-center">
@@ -56,6 +81,7 @@
             </div>
         </div>
     </div>
+</div>
     @foreach (var item in Model)
     {
         <div class="col-md-4 grid-margin stretch-card">
@@ -142,27 +168,26 @@
 @section Scripts{
     <script>
         $(document).ready(function(){
-            var td = new Date();
-            alert()
-            $("#search").on("click", function () {
+          
+            //$("#search").on("click", function () {
                
-                var date = $("#searchDate").val();
-                var isFree = false
-                if ($("#flexSwitchCheckDefault").is(":checked")) {
-                   isFree = true
-                }
-                $.ajax({
-                    url: '/Admin/Vet/Index',
-                    data: { date: date, isFree:isFree },
+            //    var date = $("#searchDate").val();
+            //    var isFree = false
+            //    if ($("#flexSwitchCheckDefault").is(":checked")) {
+            //       isFree = true
+            //    }
+            //    $.ajax({
+            //        url: '/Admin/Vet/Index',
+            //        data: { date: date, isFree:isFree },
                   
-                    success: function (data) {
+            //        success: function (data) {
                        
-                    }
-                });
-            });
+            //        }
+            //    });
+            //});
             
 
-        
+            $("#clickToSearch").click(function () { $("#expand").slideToggle() });
             $(".vet").click(function () {
               
                 $("form")[0].reset();
@@ -173,6 +198,7 @@
 
                     success: function (data) {
                         var test = ['* * * 0,6']
+                        console.log(data)
                         test = test.concat(JSON.parse(data));
                         console.log(test);
                         $('#datetimepicker2').Zebra_DatePicker({

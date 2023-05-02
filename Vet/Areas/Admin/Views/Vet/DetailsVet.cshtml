@@ -86,9 +86,7 @@
                     <p class="card-description">
                         Кличка животного:  @item.Animal?.NickName
                     </p>
-                    <p class="card-description">
-                        Кличка животного:  @item.Animal?.Diagnoses.OrderByDescending(i=> i.Date).FirstOrDefault();
-                    </p>
+                   
                     <p class="card-description">
                         Дата начала:  @item.DateStart.GetValueOrDefault().ToShortDateString() Дата конца: @item.DateEnd.GetValueOrDefault().ToShortDateString();
                     </p>

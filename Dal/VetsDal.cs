@@ -43,6 +43,18 @@ namespace Dal
             {
                 dbObjects = dbObjects.Where(i => i.Login == searchParams.Login);
             }
+            if (searchParams.Name != null)
+            {
+                dbObjects = dbObjects.Where(i => i.Name == searchParams.Name);
+            }
+            if (searchParams.LastName != null)
+            {
+                dbObjects = dbObjects.Where(i => i.LastName == searchParams.LastName);
+            }
+            if (searchParams.FatherName != null)
+            {
+                dbObjects = dbObjects.Where(i => i.FatherName == searchParams.FatherName);
+            }
             if (searchParams.Role != null)
             {
                 dbObjects = dbObjects.Where(i => i.RoleType == (int)searchParams.Role);

@@ -46,7 +46,7 @@
                         </p> 
                          @if (item.Vet != null){
                         <p class="card-description" >
-                            диагноз: @(item.Diagnoses?.FirstOrDefault().Name)
+                            диагноз: @(item.Diagnoses?.OrderByDescending(i=> i.Date).FirstOrDefault().Name)
                         </p>
                    
                     

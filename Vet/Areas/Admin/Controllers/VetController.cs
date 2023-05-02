@@ -22,23 +22,37 @@ namespace Vet.Areas.Admin.Controllers
             this.test = test;
         }
         
-        public async Task<IActionResult> Index(DateTime? date , bool isFree)
+        public async Task<IActionResult> Index(VetSearchParams search, DateTime? date)
         {
-            var dateNow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            date = date ?? dateNow;
-                var vets = (await new VetsDal().GetAsync(new VetSearchParams() {Role = RoleType.vet })).Objects.ToList();
-            if (isFree)
+            search.Role = RoleType.vet;
+            date = date ?? DateTime.Now;
+                var vets = (await new VetsDal().GetAsync(search )).Objects.ToList();
+            if (date != null)
             {
-                vets.Where(i => i.Inspections.Where(j => j.Date == date).Count() <= 3);
+                var result = new List<VetEntity>();
+              foreach(var item in vets)
+                {
+                   var disableDates =  GetDisableDates(item.Inspections.Where(k => k.Date.GetValueOrDefault().Day == date.Value.Day && k.Date.GetValueOrDefault().Month == date.Value.Month && k.Date.GetValueOrDefault().Year == date.Value.Year).Select(i => i.Date).ToList()).Result;
+                    if (disableDates.Count() == 0)
+                    {
+                        result.Add(item);
+                    }
+                }
+                vets = result;
+                // vets.Where(i => GetDisableDates(i.Inspections.Where(k => k.Date.Value.Day == search.Date.Value.Day&& k.Date.Value.Month == search.Date.Value.Month&& k.Date.Value.Year == search.Date.Value.Year).Select(i => i.Date).ToList()).Result.Count() == 0);
             }
-           
+
+
+
             var animals = (await new AnimalOwnerDal().GetAsync(new AnimalOwnerSearchParams())).Objects.Select(i => new SelectListItem { Value = i.Id.ToString(), Text = i.LastName + " " + i.Name + " " + i.FatherName }).ToList();
             animals.Add(new SelectListItem { Selected = true, Text = "выберите запись", Value = null });
             ViewBag.AnimalOwners = animals;
             ViewBag.Date = date.GetValueOrDefault().ToShortDateString();
-            ViewBag.IsFree = isFree;
+            ViewBag.Search = search;
+          
             return View(vets);
         }
+       
         public async Task<IActionResult> DeleteVet(int id)
         {
             try
@@ -116,8 +130,8 @@ namespace Vet.Areas.Admin.Controllers
         {
             if (date != null)
             {
-                var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { Date = date, VetId = id  }));
-                var test = inspections.Objects.Select(i => new List<string>() { i.Date.Value.ToShortTimeString(), new TimeSpan(i.Date.Value.TimeOfDay.Hours+1, i.Date.Value.TimeOfDay.Minutes, i.Date.Value.TimeOfDay.Seconds).ToString() });
+                var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { Date = date, VetId = id  })).Objects;
+                var test = inspections.Select(i => new List<string>() { i.Date.Value.ToShortTimeString(), new TimeSpan(i.Date.Value.TimeOfDay.Hours+1, i.Date.Value.TimeOfDay.Minutes, i.Date.Value.TimeOfDay.Seconds).ToString() });
                 var td = JsonConvert.SerializeObject(test);
                 return JsonConvert.SerializeObject(test);
             }
@@ -128,12 +142,10 @@ namespace Vet.Areas.Admin.Controllers
 
         }
         [Authorize(Roles = "admin,vet")]
-        public async Task<string> GetDisableDates(DateTime? date, int? id)
+        public async Task<string> GetDisableDates( int? id)
         {
             var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() {  CurrentMonth = DateTime.Now, VetId=id })).Objects.Select(i=> i.Date).ToList();
-            var dates = inspections.GroupBy(i => i.Value.Day);
-            var td = dates.Select(i => new List<string>() { i.FirstOrDefault().Value.ToShortDateString(), i.Count().ToString() });
-            var disableDates = td.Where(i => int.Parse(i[1]) == 9).Select(i => i[0]);
+            var disableDates = GetDisableDates(inspections);
             return JsonConvert.SerializeObject(disableDates);
 
         }
@@ -163,6 +175,13 @@ namespace Vet.Areas.Admin.Controllers
             ViewBag.Treatments = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() { VetId = id ,IsDischarged= true })).Objects.ToList();
             ViewBag.Date = date;
             return View(inspections);
+        }
+        private async Task<IEnumerable<string>> GetDisableDates(List<DateTime?>? inspections)
+        {
+            var dates = inspections.GroupBy(i => i.Value.Day);
+            var td = dates.Select(i => new List<string>() { i.FirstOrDefault().Value.ToShortDateString(), i.Count().ToString() });
+            var disableDates = td.Where(i => int.Parse(i[1]) == 9).Select(i => i[0]).ToList();
+            return disableDates;
         }
     }
 }
