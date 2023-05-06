@@ -141,6 +141,19 @@ namespace Vet.Areas.Admin.Controllers
             }
 
         }
+        public async Task<string> GetStatictic(DateTime? date, int? id)
+        {
+            var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { CurrentMonth = DateTime.Now, VetId = id })).Objects.Select(i => i.Date).ToList();
+            var dates = inspections.GroupBy(i => i.Value.Day);
+            var td = dates.Select(i => new List<string>() { i.FirstOrDefault().Value.ToShortDateString(), i.Count().ToString() });
+            List<string> Resultdates = td.Select(i => i[0]).ToList();
+            List<string> Resultcounts = td.Select(i => i[1]).ToList();
+            List<List<string>> result = new List<List<string>>()
+            {
+                Resultdates,Resultcounts
+            };
+            return JsonConvert.SerializeObject(result);
+        }
         [Authorize(Roles = "admin,vet")]
         public async Task<string> GetDisableDates( int? id)
         {

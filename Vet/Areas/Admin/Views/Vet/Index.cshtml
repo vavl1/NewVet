@@ -13,13 +13,33 @@
     div#expand {
         display: none;
     }
+
+    .arrow {
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+        margin-left: 10px;
+    }
+
+    .up {
+        transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+    }
+
+    .down {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+    }
 </style>
 <div class="row">
     <div >
     <div class="col-md-12 grid-margin">
         <form action="/Admin/Vet/Index">
-
-                <h4 class="font-weight-bold mb-0"  id="clickToSearch">Поиск</h4>
+                <div class="d-flex align-items-center" id="clickToSearch">
+                    <h4 class="font-weight-bold mb-0">Поиск</h4>
+                    <i class="arrow up" id="arr"></i>
+                </div>
             <div id="expand">
                 <div class="d-flex justify-content-between align-items-center">
 
@@ -187,7 +207,16 @@
             //});
             
 
-            $("#clickToSearch").click(function () { $("#expand").slideToggle() });
+            $("#clickToSearch").click(function () {
+                $("#expand").slideToggle()
+                if ($("#arr").hasClass("up")) {
+                    $("#arr").removeClass("up").addClass("down");
+
+                }
+                else{
+                    $("#arr").removeClass("down").addClass("up");
+                }
+            });
             $(".vet").click(function () {
               
                 $("form")[0].reset();

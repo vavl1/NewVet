@@ -46,7 +46,7 @@ namespace Dal
             }
             if(searchParams.CurrentMonth!= null)
             {
-                dbObjects = dbObjects.Where(i =>  i.Date.Value.Month == searchParams.CurrentMonth.GetValueOrDefault().Month );
+                dbObjects = dbObjects.Where(i =>  i.Date.Value.Month == searchParams.CurrentMonth.GetValueOrDefault().Month&& i.Date.Value.Year == searchParams.CurrentMonth.GetValueOrDefault().Year);
             }
             
 
