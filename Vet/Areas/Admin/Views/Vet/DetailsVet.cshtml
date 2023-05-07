@@ -101,8 +101,18 @@
     
 </div>
 <div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="font-weight-bold mb-0">График нагрузки врача</h4>
+            </div>
+
+        </div>
+    </div>
+  
+    <p class="fs-6">Имя</p>
     <input type="text" class="form-control form-control-sm"  id="searchDate" style="width:200px">
-        <div class="col-lg-6 grid-margin stretch-card">
+    <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">График загруженности </h4>
@@ -113,59 +123,88 @@
     </div>
 @section Scripts{
     <script>
+        let chart;
+        function getBar() {
+           
+            var id = $("#vetId").val();
+            var date = $("#searchDate").val();
+            if (date == " " || date == "") {
+
+                date = dt.getMonth() + 1 + " " + dt.getFullYear();
+            }
+            console.log(date);
+            $.ajax({
+                url: '/Admin/Vet/GetStatictic',
+                data: { id: id, date: date },
+                type: 'POST',
+                success: function (result) {
+                    var test = JSON.parse(result)
+                    console.log(test);
+                    const ctx = document.getElementById('barChart');
+                    if (chart) {
+                        chart.destroy();
+                        chart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: test[0],
+                                datasets: [{
+                                    label: 'степень загруженности',
+                                    data: test[1],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        chart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: test[0],
+                                datasets: [{
+                                    label: 'степень загруженности',
+                                    data: test[1],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
+
+
+                }
+            });
+        }
         $('#datetimepicker2').Zebra_DatePicker({
             
             inside: false,
+            
            
            
         });
         var dt = new Date();
         $('#searchDate').Zebra_DatePicker({
             format: 'm Y',
-            current_date: dt.getMonth() + " " + dt.getFullYear(),
+            onSelect: function () {
+                getBar();
+            },
         });
-        function getBar() {
-            
-        }
+       
         $(document).ready(function(){
-            var id = $("#vetId").val();
-            var date = $("#searchDate").val();
-            if(date==" "||date ==""){
-
-                date = dt.getMonth()+1+" "+dt.getFullYear();
-            }
-            console.log(date);
-            $.ajax({
-                url: '/Admin/Vet/GetStatictic',
-                data: { id: id, date:date },
-                type: 'POST',
-                success: function (result) {
-                    var test = JSON.parse(result)
-                    console.log(test);
-                    const ctx = document.getElementById('barChart');
-
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: test[0],
-                            datasets: [{
-                                label: 'степень загруженности',
-                                data: test[1],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-
-                   
-                }
-            });
+            
+           getBar();
            
 
 
