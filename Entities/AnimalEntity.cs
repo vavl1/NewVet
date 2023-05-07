@@ -21,6 +21,7 @@ namespace Entities
         public bool? Gender { get; set; }
 
         public string? Breed { get; set; }
+        public string? PhotoParth { get; set; }
 
         public virtual AnimalOwnerEntity? AnimalOwnerNavigation { get; set; }
 

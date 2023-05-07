@@ -31,6 +31,7 @@ namespace Dal
             dbObject.Gender = entity.Gender;
             dbObject.AnimalOwner = entity.AnimalOwner;
             dbObject.VetId = entity.VetId;
+            dbObject.PhotoParth = entity.PhotoParth;    
 
 
 
@@ -76,7 +77,7 @@ namespace Dal
                 VetId = dbObject.VetId,
                 Breed = dbObject.Breed,
                 AnimalOwner = dbObject.AnimalOwner,
-             
+                PhotoParth = dbObject.PhotoParth,
                 Diagnoses = dbObject.Diagnoses.Select(DiagnosisDal.ConvertDbObjectToEntity).ToList(),
                 Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet)
 

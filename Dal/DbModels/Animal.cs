@@ -18,6 +18,7 @@ public partial class Animal
     public bool? Gender { get; set; }
 
     public string? Breed { get; set; }
+    public string? PhotoParth { get; set; }
 
     public virtual AnimalOwner? AnimalOwnerNavigation { get; set; }
 
