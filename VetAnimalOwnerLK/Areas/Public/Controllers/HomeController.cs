@@ -34,7 +34,7 @@ namespace VetAnimalOwnerLK.Areas.Public.Controllers
             };
           
             var pets = (await new AnimalDal().GetAsync(new AnimalSearchParams() { AnimalOwnerId = AnimalOwnerParams.Id })).Objects.ToList();
-            var vets = (await new VetsDal().GetAsync(new VetSearchParams())).Objects.Select(i => new SelectListItem { Value = i.Id.ToString(), Text = i.LastName + " " + i.Name + " " + i.FatherName }).ToList();
+            var vets = (await new VetsDal().GetAsync(new VetSearchParams() { Role = RoleType.vet })).Objects.Select(i => new SelectListItem { Value = i.Id.ToString(), Text = i.LastName + " " + i.Name + " " + i.FatherName }).ToList();
             ViewBag.Vets = vets;
             return View(pets);
         }

@@ -78,30 +78,19 @@
             <!-- partial:partials/_sidebar.html -->
 
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                @*@if (role == "admin")
-                {
+                
+                
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Vet" asp-action="Index">
+                            <a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">
                                 <i class="ti-user menu-icon"></i>
-                                <span class="menu-title">Ветеринары</span>
+                                <span class="menu-title">Домашняя</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="AnimalOwner" asp-action="Index">
-                                <i class="ti-face-smile  menu-icon"></i>
-                                <span class="menu-title">Владельцы</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Treatment" asp-action="Index">
-                                <i class="ti-clipboard  menu-icon"></i>
-                                <span class="menu-title">Информация о лечении</span>
-                            </a>
-                        </li>
+                        
 
                     </ul>
-                }*@
+                
             </nav>
             <!-- partial -->
             <div class="main-panel">

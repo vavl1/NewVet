@@ -60,7 +60,7 @@
                     <button type="button" class="btn btn-outline-primary update" data-bs-toggle="modal" data-bs-target="#exampleModal" id="@item.Id">
                         Изменить
                     </button>
-                    <button type="button" class="btn btn-outline-primary vet" data-bs-toggle="modal" data-bs-target="#exampleModal1" data="@item.Id">
+                    <button type="button" class="btn btn-outline-primary vet" data-bs-toggle="modal" data-bs-target="#exampleModal1" data="@item.Id" style="margin-left: 30px; margin-top: 10px;">
                         Назначить запись
                     </button>
 
@@ -214,6 +214,49 @@
             })
         });
         $(document).ready(function () {
+            function GetData(){
+                var id = $("#select2").val()
+                $.ajax({
+                    url: '/Public/Home/GetDisableDates',
+                    data: { id: id },
+
+                    success: function (data) {
+                        var test = ['* * * 0,6']
+                        console.log(data)
+                        test = test.concat(JSON.parse(data));
+                        console.log(test);
+                        $('#datetimepicker2').Zebra_DatePicker({
+
+                            inside: false,
+                            disabled_dates: test,
+                            onChange: function (view, elements) {
+                                console.log(elements);
+                            },
+                            onSelect: function () {
+                                var date = $("#datetimepicker2").val();
+
+                                alert("test");
+                                $.ajax({
+                                    url: '/Public/Home/GetDisableTimes',
+                                    data: { date: date, id: id },
+
+                                    success: function (data) {
+                                        data = JSON.parse(data)
+                                        console.log(data);
+                                        $('#timepiker').timepicker({
+                                            'step': '60',
+                                            'minTime': '10:00',
+                                            'maxTime': '18:00',
+                                            'disableTimeRanges': data
+
+                                        });
+                                    }
+                                })
+                            }
+                        });
+                    }
+                })
+            }
             $('#Birthay').Zebra_DatePicker({
 
                 inside: false
@@ -261,50 +304,10 @@
                 var id = $(this).attr("data");
                 $("#InspectionAnimalId").val(id)
                 var td = $("#InspectionAnimalId").val()
-                alert(td)
+             GetData();
             })
             $("#select2").change(function(){
-                var id = $(this).val()
-                $.ajax({
-                    url: '/Public/Home/GetDisableDates',
-                    data: { id: id },
-
-                    success: function (data) {
-                        var test = ['* * * 0,6']
-                        console.log(data)
-                        test = test.concat(JSON.parse(data));
-                        console.log(test);
-                        $('#datetimepicker2').Zebra_DatePicker({
-
-                            inside: false,
-                            disabled_dates: test,
-                            onChange: function (view, elements) {
-                                console.log(elements);
-                            },
-                            onSelect: function () {
-                                var date = $("#datetimepicker2").val();
-
-                                alert("test");
-                                $.ajax({
-                                    url: '/Public/Home/GetDisableTimes',
-                                    data: { date: date, id: id },
-
-                                    success: function (data) {
-                                        data = JSON.parse(data)
-                                        console.log(data);
-                                        $('#timepiker').timepicker({
-                                            'step': '60',
-                                            'minTime': '10:00',
-                                            'maxTime': '18:00',
-                                            'disableTimeRanges': data
-
-                                        });
-                                    }
-                                })
-                            }
-                        });
-                    }
-                })
+               GetData();
             })
         })
 
