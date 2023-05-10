@@ -8,5 +8,6 @@ namespace Entities.SearchParams
 {
     public class AnimalOwnerSearchParams:BaseSearchParams
     {
+        public string? Login { get; set; }
     }
 }

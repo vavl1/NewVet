@@ -15,6 +15,11 @@ namespace Vet.Areas.Admin.Controllers
     [Authorize(Roles = "admin")]
     public class AnimalOwnerController : Controller
     {
+        IWebHostEnvironment test;
+        public AnimalOwnerController(IWebHostEnvironment test)
+        {
+            this.test = test;
+        }
         public async Task<IActionResult> Index(int page=1)
         {
             var pageSize = 6;
@@ -77,22 +82,7 @@ namespace Vet.Areas.Admin.Controllers
             ViewBag.AnimalOwnerId = id;
             var pets = (await new AnimalDal().GetAsync(new AnimalSearchParams() { AnimalOwnerId = id })).Objects.ToList();
             
-            pets = pets.Select(i => new AnimalEntity
-            {
-                Id = i.Id,
-                AnimalOwner = i.AnimalOwner,
-                VetId = i.VetId,
-                AnimalOwnerNavigation = i.AnimalOwnerNavigation,
-                Birthay = i.Birthay,
-                Gender = i.Gender,
-                Breed = i.Breed,
-                NickName = i.NickName,
-                Treatments = i.Treatments,
-                Vet = i.Vet,
-                Diagnoses = i.Diagnoses?.OrderByDescending(j=> j.Date).ToList()
-            }
-
-           ).ToList();
+          
             return View(pets);
         }
         [HttpPost]
@@ -119,6 +109,26 @@ namespace Vet.Areas.Admin.Controllers
 
             }
           return  Redirect("/Admin/AnimalOwner/DetailsAnimalOwner/" + ownerId);
+
+
+        }
+        [HttpPost]
+        public async Task<string> AddPhoto(IFormFile File)
+        {
+            if (File != null)
+            {
+                var parth = "/images/" + File.FileName;
+                using (var fileStream = new FileStream(test.WebRootPath + parth, FileMode.Create))
+                {
+                    await File.CopyToAsync(fileStream);
+                }
+                return parth;
+            }
+            else
+            {
+                return "";
+            }
+
 
 
         }

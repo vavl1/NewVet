@@ -30,7 +30,7 @@
             <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-
+                    <img src="@item.PhotoParth" style="width:100px;height:100px;margin-left: auto; margin-right: auto;  display: block; padding-bottom:10px" />
                         <h4 class="card-title"></h4>
                         <p class="card-description" >
                             Кличка: @item.NickName
@@ -74,7 +74,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Создание питомца</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="form " >
+            <form id="form" >
                 <div class="modal-body">
 
                     <input type="hidden" name="Id" value="0" />
@@ -104,7 +104,20 @@
 
                             <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Birthay" style="width:425px" required>
                         </div>
+                        <div class="form-group">
+                            <label>Изображение</label>
+                            <input type="file" name="img[]" class="file-upload-default" id="image">
+                            <img href="" id="im" style="width:100px;height:100px;margin-left: auto; margin-right: auto;  display: block;" />
+                            <div class="input-group col-xs-12">
+                                <input type="hidden" id="test" name="PhotoParth" />
 
+                                <input type="text" class="form-control file-upload-info" name="PhotoParth" disabled placeholder="Upload Image">
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button">Загрузить</button>
+                                </span>
+                            </div>
+                            
+                        </div>
 
 
 
@@ -124,9 +137,29 @@
 
 @section Scripts{
         <script type="text/javascript">
-                    $(document).ready(function(){
+        $('.file-upload-default').on('change', function () {
+            var file = new FormData();
+            file.append("File", $(this)[0].files[0]);
+            console.log(file);
+            $.ajax({
+                url: "/Admin/AnimalOwner/AddPhoto",
+                contentType: false,
+                processData: false,
+                data: file,
+                type: "POST",
+
+                success: function (data) {
+
+                    $("#test").val(data);
+                    $("#im").attr("src", data);
+                    console.log($("#test").val())
+                }
+
+            })
+        });
+        $(document).ready(function () {
             $('#datetimepicker2').Zebra_DatePicker({
-            
+
                 inside: false
             });
             $("#form").submit(function () {
@@ -144,29 +177,29 @@
                 return false;
             });
 
-              })
+        })
 
-            var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model)))")
-            console.log(items);
-            var GiftModel = function () {
-                var self = this;
-                self.animals = ko.observableArray(items);
+            //var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model)))")
+            //console.log(items);
+            //var GiftModel = function () {
+            //    var self = this;
+            //    self.animals = ko.observableArray(items);
 
-                self.addAnimal = function (formElement) {
-                    var animal = $(formElement).serialize();
-
-
-                };
-
-                self.removeGift = function (animal) {
-                    self.animals.remove(animal);
-                };
+            //    self.addAnimal = function (formElement) {
+            //        var animal = $(formElement).serialize();
 
 
-            };
+            //    };
+
+            //    self.removeGift = function (animal) {
+            //        self.animals.remove(animal);
+            //    };
 
 
-            ko.applyBindings(new GiftModel());
+            //};
+
+
+            //ko.applyBindings(new GiftModel());
           
         </script>
 

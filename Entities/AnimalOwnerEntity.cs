@@ -29,7 +29,10 @@ namespace Entities
         public string? Phone { get; set; }
         [Display(Name = "Адресс")]
         public string? Adress { get; set; }
-    
+        [Display(Name = "Логин")]
+        public string? Login { get; set; }
+        [Display(Name = "Пароль")]
+        public string? Password { get; set; }
         public virtual ICollection<AnimalEntity> Animals { get; set; } = new List<AnimalEntity>();
     }
 }

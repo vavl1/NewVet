@@ -30,14 +30,18 @@ namespace Dal
             dbObject.Name = entity.Name;
             dbObject.Phone = entity.Phone;
             dbObject.Adress = entity.Adress;
-            
+            dbObject.Login = entity.Login;
+            dbObject.Password = entity.Password;
 
             return Task.CompletedTask;
         }
 
         protected override Task<IQueryable<AnimalOwner>> BuildDbQueryAsync(DefaultDbContext context, IQueryable<AnimalOwner> dbObjects, AnimalOwnerSearchParams searchParams)
         {
-
+            if (searchParams.Login != null)
+            {
+                dbObjects = dbObjects.Where(i => i.Login == searchParams.Login);
+            }
 
             return Task.FromResult(dbObjects);
         }
@@ -69,6 +73,8 @@ namespace Dal
                 Phone = dbObject.Phone,
                 Adress = dbObject.Adress,
                 Animals = dbObject.Animals.Select(AnimalDal.ConvertDbObjectToEntity).ToList(),
+                Login = dbObject.Login,
+                Password = dbObject.Password,
 
 
             };

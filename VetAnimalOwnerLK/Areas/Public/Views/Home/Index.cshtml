@@ -1,0 +1,315 @@
+﻿@using Entities;
+@using System.Web;
+@using Newtonsoft.Json;
+@using VetAnimalOwnerLK;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+    var mail = ViewBag.Mail as List<SelectListItem>;
+    var animalOwnerId = ViewBag.AnimalOwnerId as int?;
+    var items = Model;
+}
+@model List<AnimalEntity>
+
+<div class="col-md-12 grid-margin">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class="font-weight-bold mb-0">Питомцы</h4>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="newAnimal">
+                Создать нового питомца
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <img src="@item.PhotoParth" style="width:100px;height:100px;margin-left: auto; margin-right: auto;  display: block; padding-bottom:10px" />
+                    <h4 class="card-title"></h4>
+                    <p class="card-description">
+                        Кличка: @item.NickName
+                    </p>
+                    <p class="card-description">
+                        Порода: @item.Breed
+                    </p>
+                    <p class="card-description">
+                        Дата рождения:@(item.Birthay?.ToShortDateString())
+                    </p>
+                    <p class="card-description">
+                        Пол:@(item.Gender == true ? "Мужской" : "Женский")
+                    </p>
+                    @if (item.Vet != null)
+                    {
+                        <p class="card-description">
+                            Диагноз: @(item.Diagnoses?.OrderByDescending(i => i.Date).FirstOrDefault().Name)
+                        </p>
+
+
+                        <p class="card-description">
+                            Лечащий врач: @item.Vet.Name @item.Vet.FatherName
+                        </p>
+                    }
+                    <a class="btn btn-outline-danger btn-fw" id="delete" asp-area="Public" asp-controller="Home" asp-action="DeleteAnimal" asp-route-id="@item.Id" >Удалить</a>
+                    <button type="button" class="btn btn-outline-primary update" data-bs-toggle="modal" data-bs-target="#exampleModal" id="@item.Id">
+                        Изменить
+                    </button>
+                    <button type="button" class="btn btn-outline-primary vet" data-bs-toggle="modal" data-bs-target="#exampleModal1" data="@item.Id">
+                        Назначить запись
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Создание питомца</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form" asp-controller="Home" asp-action="AddAnimal" >
+                <div class="modal-body">
+
+                    <input type="hidden" name="Id" value="0" id="Id" />
+                    <input type="hidden" name="VetId" id="VetId"/>
+                    <input type="hidden" name="AnimalOwner" value="@AnimalOwnerParams.Id" id="AnimalOwner"/>
+
+                    <div class="card-body">
+
+
+                        <div class="form-group">
+                            <label>Кличка</label>
+                            <input type="text" class="form-control form-control-lg" placeholder="Username" aria-label="Username" name="NickName" id="NickName" required>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Пол</label>
+                            <select class="form-control" id="exampleSelectGender" name="Gender" asp-items="@mail" id="Gender">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Порода</label>
+                            <input type="text" class="form-control form-control-sm" name="Breed" required id="Breed">
+
+                        </div>
+                        <div class="form-group">
+                            <label>дата рождения</label>
+
+                            <input type="text" class="form-control form-control-sm" id="Birthay" name="Birthay" style="width:425px" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Изображение</label>
+                            <input type="file" name="img[]" class="file-upload-default" id="image">
+                            <img href="" id="im" style="width:100px;height:100px;margin-left: auto; margin-right: auto;  display: block;" />
+                            <div class="input-group col-xs-12">
+                                <input type="hidden" id="PhotoParth" name="PhotoParth" />
+
+                                <input type="text" class="form-control file-upload-info" name="PhotoParth" disabled placeholder="Upload Image" id="PhotoPart">
+                                <span class="input-group-append">
+                                    <button class="file-upload-browse btn btn-primary" type="button">Загрузить</button>
+                                </span>
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Заявка на приемы</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="form" action="/Public/Home/CreateInspection" method="post">
+                <div class="modal-body">
+
+                    <input type="hidden" name="Id" value="0" />
+                    <input type="hidden" name="AnimalId" id="InspectionAnimalId"  />
+
+
+                    <div class="card-body">
+
+
+                        <div class="form-group">
+                            <label>Врач</label>
+                            <select class="form-control" id="select2" asp-items="@ViewBag.Vets" name="VetId"style="width:450px">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>дата приема</label>
+
+                            <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Date" style="width:425px" required>
+                        </div>
+                        <div class="form-group">
+                            <label>время приема</label>
+
+                            <input type="text" class="form-control form-control-sm" data-time-format="H:i" id="timepiker" name="Time" style="width:425px" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Описание</label>
+
+                            <input type="text" class="form-control form-control-sm" name="Description">
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Button trigger modal -->
+@section Scripts{
+    <script type="text/javascript">
+        $('.file-upload-default').on('change', function () {
+            var file = new FormData();
+            file.append("File", $(this)[0].files[0]);
+            console.log(file);
+            $.ajax({
+                url: "/Public/Home/AddPhoto",
+                contentType: false,
+                processData: false,
+                data: file,
+                type: "POST",
+
+                success: function (data) {
+
+                    $("#PhotoParth").val(data);
+                    $("#im").attr("src", data);
+                    console.log($("#test").val())
+                }
+
+            })
+        });
+        $(document).ready(function () {
+            $('#Birthay').Zebra_DatePicker({
+
+                inside: false
+            });
+            $("#newAnimal").click(function(){
+                $("form")[0].reset();
+                $("#Id").val(0);
+                $("#VetId").val(null);
+               $("#PhotoParth").val(null);
+                $("#im").attr("src", null);
+            })
+            $(".update").click(function(){
+              var id = $(this).attr('id')
+              alert(id)
+                $.ajax({
+                    url: "/Public/Home/GetAnimal",
+                    data: { id: id },
+                    type: "POST",
+
+                    success: function (data) {
+
+                        data= JSON.parse(data);
+                        console.log(data)
+                        $("#Id").val(data.Id);
+                        $("#VetId").val(data.VetId);
+                        $("#AnimalOwner").val(data.AnimalOwner);
+                        $("#NickName").val(data.NickName);
+                        $("#Gender").val(data.Gender);
+                        $("#Breed").val(data.Breed);
+                        $("#Birthay").val(data.Birthay);
+                        $("#PhotoParth").val(data.PhotoParth);
+                        $("#im").attr("src", data.PhotoParth);
+                    }
+
+                })
+            })
+
+             $("#select2").select2({
+                dropdownParent: $("#exampleModal1")
+            });
+
+            $(".vet").click(function () {
+              
+                $("form")[0].reset();
+                var id = $(this).attr("data");
+                $("#InspectionAnimalId").val(id)
+                var td = $("#InspectionAnimalId").val()
+                alert(td)
+            })
+            $("#select2").change(function(){
+                var id = $(this).val()
+                $.ajax({
+                    url: '/Public/Home/GetDisableDates',
+                    data: { id: id },
+
+                    success: function (data) {
+                        var test = ['* * * 0,6']
+                        console.log(data)
+                        test = test.concat(JSON.parse(data));
+                        console.log(test);
+                        $('#datetimepicker2').Zebra_DatePicker({
+
+                            inside: false,
+                            disabled_dates: test,
+                            onChange: function (view, elements) {
+                                console.log(elements);
+                            },
+                            onSelect: function () {
+                                var date = $("#datetimepicker2").val();
+
+                                alert("test");
+                                $.ajax({
+                                    url: '/Public/Home/GetDisableTimes',
+                                    data: { date: date, id: id },
+
+                                    success: function (data) {
+                                        data = JSON.parse(data)
+                                        console.log(data);
+                                        $('#timepiker').timepicker({
+                                            'step': '60',
+                                            'minTime': '10:00',
+                                            'maxTime': '18:00',
+                                            'disableTimeRanges': data
+
+                                        });
+                                    }
+                                })
+                            }
+                        });
+                    }
+                })
+            })
+        })
+
+                   
+
+    </script>
+
+}

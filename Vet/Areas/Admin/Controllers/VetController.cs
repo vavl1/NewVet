@@ -158,7 +158,7 @@ namespace Vet.Areas.Admin.Controllers
         public async Task<string> GetDisableDates( int? id)
         {
             var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() {  CurrentMonth = DateTime.Now, VetId=id })).Objects.Select(i=> i.Date).ToList();
-            var disableDates = GetDisableDates(inspections);
+            var disableDates = GetDisableDates(inspections).Result;
             return JsonConvert.SerializeObject(disableDates);
 
         }

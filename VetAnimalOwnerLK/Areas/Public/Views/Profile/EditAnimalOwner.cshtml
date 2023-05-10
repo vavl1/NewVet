@@ -1,0 +1,62 @@
+﻿@using Entities;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model AnimalOwnerEntity;
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Редактирование профиля</h4>
+
+            <form class="forms-sample " action="/Public/Profile/EditAnimalOwner" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Login" />
+                <input type="hidden" asp-for="Password" />
+               
+                <div class="form-group">
+                    <label for="exampleInputCity1" asp-for="Name"></label>
+                    <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" asp-for="Name">
+                    <span asp-validation-for="Name" class=" mb-3 fw-normal "></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputCity1" asp-for="LastName"></label>
+                    <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" asp-for="LastName">
+                    <span asp-validation-for="LastName" class=" mb-3 fw-normal"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputCity1" asp-for="FatherName"></label>
+                    <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location" asp-for="FatherName">
+                    <span asp-validation-for="FatherName" class=" mb-3 fw-normal"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputCity1" asp-for="Phone"></label>
+                    <input type="tel" class="form-control" placeholder="Location" asp-for="Phone" id="phone">
+                    <span asp-validation-for="Phone" class=" mb-3 fw-normal"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputCity1" asp-for="Adress"></label>
+                    <input type="text" class="form-control" placeholder="Location" asp-for="Adress" id="phone">
+                    <span asp-validation-for="Adress" class=" mb-3 fw-normal"></span>
+                </div>
+
+               
+
+                <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
+                <a href="/Admin/Vet/Index" class="btn btn-light">Отмена</a>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+       
+        $(document).ready(function () {
+            $('#phone').mask('+7 (000) 00-00-000');
+        })
+
+
+    </script>
+}
