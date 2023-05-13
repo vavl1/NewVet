@@ -40,6 +40,10 @@ namespace Dal
             {
                 dbObjects = dbObjects.Where(i => i.VetId == searchParams.VetId);
             }
+            if (searchParams.AnimalId != null)
+            {
+                dbObjects = dbObjects.Where(i => i.AnimalId == searchParams.AnimalId);
+            }
             if (searchParams.Date != null)
             {
                 dbObjects = dbObjects.Where(i => i.Date.Value.Year == searchParams.Date.GetValueOrDefault().Year&& i.Date.Value.Month == searchParams.Date.GetValueOrDefault().Month&& i.Date.Value.Day == searchParams.Date.GetValueOrDefault().Day);
@@ -56,6 +60,7 @@ namespace Dal
         protected override async Task<IList<InspectionEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<Inspection> dbObjects, object convertParams, bool isFull)
         {
             dbObjects = dbObjects.Include(i => i.Animal);
+            dbObjects = dbObjects.Include(i => i.Vet);
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -80,8 +85,8 @@ namespace Dal
                 AnimalId = dbObject.AnimalId,
                 VetId = dbObject.VetId,
                 Date = dbObject.Date,
-                Animal = AnimalDal.ConvertDbObjectToEntity(dbObject.Animal)
-
+                Animal = AnimalDal.ConvertDbObjectToEntity(dbObject.Animal),
+                //Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet),
             };
         }
     }

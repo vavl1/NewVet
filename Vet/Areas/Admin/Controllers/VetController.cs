@@ -39,7 +39,7 @@ namespace Vet.Areas.Admin.Controllers
                     }
                 }
                 vets = result;
-                // vets.Where(i => GetDisableDates(i.Inspections.Where(k => k.Date.Value.Day == search.Date.Value.Day&& k.Date.Value.Month == search.Date.Value.Month&& k.Date.Value.Year == search.Date.Value.Year).Select(i => i.Date).ToList()).Result.Count() == 0);
+                
             }
 
 
@@ -158,7 +158,7 @@ namespace Vet.Areas.Admin.Controllers
         public async Task<string> GetDisableDates( int? id)
         {
             var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() {  CurrentMonth = DateTime.Now, VetId=id })).Objects.Select(i=> i.Date).ToList();
-            var disableDates = GetDisableDates(inspections).Result;
+            var disableDates = GetDisableDates(inspections);
             return JsonConvert.SerializeObject(disableDates);
 
         }

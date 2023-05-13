@@ -1,0 +1,87 @@
+﻿@using Entities;
+@using System.Web;
+@using Newtonsoft.Json;
+@using VetAnimalOwnerLK.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model PageModel<InspectionEntity>
+<div class="col-md-12 grid-margin">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class="font-weight-bold mb-0">История лечения</h4>
+        </div>
+        
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Питомец
+            </th>
+            <th>
+                Лечащий врач
+            </th>
+            <th>
+                Дата лечения
+            </th>
+            <th>
+                Время лечения
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Objects)
+        {
+            <tr>
+                <td class="py-1">
+                    @item.Animal?.NickName
+                </td>
+                <td>
+                    @(item.Vet?.Name + " " + item.Vet?.FatherName)
+                </td>
+                <td>
+                    @item.Date.GetValueOrDefault().ToShortDateString()
+                </td>
+                <td>
+                    @item.Date.GetValueOrDefault().ToShortTimeString()
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="Index"
+   asp-route-page="@(Model.PageNumber - 1)"
+   class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.HasNextPage)
+{
+    <a asp-action="Index"
+   asp-route-page="@(Model.PageNumber + 1)"
+   class="btn btn-outline-dark">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#test").click(function () {
+
+            });
+            
+        })
+    </script>
+}

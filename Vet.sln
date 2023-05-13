@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dal", "Dal\Dal.csproj", "{1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{680F4A9A-E7E7-4BF2-82E1-9D8B4F9FF9EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VetAnimalOwnerLK", "VetAnimalOwnerLK\VetAnimalOwnerLK.csproj", "{83250ACC-37AC-4626-A9E2-F7436ACBF870}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VetAnimalOwnerLK", "VetAnimalOwnerLK\VetAnimalOwnerLK.csproj", "{83250ACC-37AC-4626-A9E2-F7436ACBF870}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

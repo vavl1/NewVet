@@ -11,6 +11,7 @@ namespace Entities.SearchParams
         public int? VetId { get; set; }
         public DateTime? Date { get; set; }
         public DateTime? CurrentMonth { get; set; } 
+        public int? AnimalId { get; set; }
        
     }
 }
