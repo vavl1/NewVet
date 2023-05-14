@@ -16,7 +16,7 @@ namespace Vet.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             ViewBag.VetId = id;
-            //var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { VetId = id, Date = DateTime.Now.ToLocalTime() })).Objects.ToList();
+           
               var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { VetId = id, Date = DateTime.Now.ToLocalTime() })).Objects.Where(i => i.Date.Value.ToShortDateString() == DateTime.Now.ToShortDateString()).ToList();
             ViewBag.Treatments = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() { VetId = id , IsDischarged=true})).Objects.ToList();
            
