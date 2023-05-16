@@ -112,6 +112,7 @@ namespace VetAnimalOwnerLK.Areas.Public.Controllers
             {
 
                 model.Date = new DateTime(model.Date.Value.Year, model.Date.Value.Month, model.Date.Value.Day, Time.Hours, Time.Minutes, Time.Seconds);
+                model.IsOk = false;
                 await new InspectionDal().AddOrUpdateAsync(model);
             }
             return Redirect("/Public/Home/Index");

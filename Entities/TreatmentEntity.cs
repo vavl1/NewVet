@@ -14,9 +14,11 @@ namespace Entities
         public bool? IsDischarged { get; set; }
 
         public int? InspectionId { get; set; }
+        public int? DiagnosId { get; set; }
 
         public string? Description { get; set; }
 
         public virtual InspectionEntity? Inspection { get; set; }
+        public virtual DiagnosisEntity? Diagnos { get; set; }
     }
 }

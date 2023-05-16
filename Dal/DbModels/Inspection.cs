@@ -14,6 +14,7 @@ public partial class Inspection
     public string? Description { get; set; }
 
     public DateTime? Date { get; set; }
+
     public bool? IsOk { get; set; }
 
     public virtual Animal? Animal { get; set; }

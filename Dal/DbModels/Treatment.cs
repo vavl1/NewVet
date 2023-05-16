@@ -13,5 +13,9 @@ public partial class Treatment
 
     public string? Description { get; set; }
 
+    public int? DiagnosId { get; set; }
+
+    public virtual Diagnosis? Diagnos { get; set; }
+
     public virtual Inspection? Inspection { get; set; }
 }

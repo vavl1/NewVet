@@ -17,5 +17,7 @@ public partial class Diagnosis
 
     public virtual Animal? Animal { get; set; }
 
+    public virtual ICollection<Treatment> Treatments { get; } = new List<Treatment>();
+
     public virtual Vet? Vet { get; set; }
 }

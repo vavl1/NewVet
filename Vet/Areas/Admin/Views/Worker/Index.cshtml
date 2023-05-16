@@ -28,8 +28,10 @@
     </div>
     @foreach (var item in Model)
     {
-        <div class="col-md-4 grid-margin stretch-card">
-            <div class="card">
+        if (item.IsOk == false)
+        {
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
                 <div class="card-body">
 
                     <p class="card-description">
@@ -38,7 +40,9 @@
                     <p class="card-description">
                         Описание назначения:  @item.Description
                     </p>
-                   
+                    <p class="card-description">
+                        Время назначения:  @item.Date.GetValueOrDefault().ToShortTimeString();
+                    </p>
                     <p class="card-description">
                         <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.Id" id="">Назначить лечение</button>
                         
@@ -50,6 +54,7 @@
                 </div>
             </div>
         </div>
+        }
     }
 
 </div>

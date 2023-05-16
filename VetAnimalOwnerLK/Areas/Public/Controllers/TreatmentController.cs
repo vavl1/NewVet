@@ -12,7 +12,19 @@ namespace VetAnimalOwnerLK.Areas.Public.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             var pageSize = 5;
-            var treatment = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() {  })).Objects.ToList();
+            var treatment = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() {  })).Objects.Select(i => new TreatmentEntity
+            {
+                Description = i.Description,
+                IsDischarged = i.IsDischarged,
+                Id = i.Id,
+                Inspection = new InspectionEntity()
+                {
+                    Animal = new AnimalDal().GetAsync((i.Inspection?.AnimalId.GetValueOrDefault()).GetValueOrDefault()).Result,
+                    Vet = new VetsDal().GetAsync((i.Inspection?.VetId.GetValueOrDefault()).GetValueOrDefault()).Result
+                },
+                Diagnos = i.Diagnos
+
+            }).ToList();
             treatment = treatment.Where(i => i.Inspection?.Animal?.AnimalOwner == AnimalOwnerParams.Id).ToList();
             var count = treatment.Count;
             var items = treatment.Skip((page - 1) * pageSize).Take(pageSize).ToList();

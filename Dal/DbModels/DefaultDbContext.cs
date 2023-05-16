@@ -74,6 +74,7 @@ public partial class DefaultDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Inspecti__3214EC07343785B8");
 
             entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.IsOk).HasDefaultValueSql("((0))");
 
             entity.HasOne(d => d.Animal).WithMany(p => p.Inspections)
                 .HasForeignKey(d => d.AnimalId)
@@ -87,6 +88,10 @@ public partial class DefaultDbContext : DbContext
         modelBuilder.Entity<Treatment>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Treatmen__3214EC07C513B4D6");
+
+            entity.HasOne(d => d.Diagnos).WithMany(p => p.Treatments)
+                .HasForeignKey(d => d.DiagnosId)
+                .HasConstraintName("FK_Treatments_Diagnoses");
 
             entity.HasOne(d => d.Inspection).WithMany(p => p.Treatments)
                 .HasForeignKey(d => d.InspectionId)

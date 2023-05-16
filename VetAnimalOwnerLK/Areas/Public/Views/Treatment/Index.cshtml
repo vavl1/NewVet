@@ -24,12 +24,14 @@
                 Питомец
             </th>
             <th>
-               Лечащий врач
+                Лечащий врач
             </th>
             <th>
                 Описание
             </th>
-           
+            <th>
+                Диагноз
+            </th>
 
         </tr>
     </thead>
@@ -46,7 +48,10 @@
                 <td>
                     @item.Description
                 </td>
-                
+                <td>
+                    @item.Diagnos?.Name
+                </td>
+
             </tr>
         }
     </tbody>

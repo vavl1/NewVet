@@ -30,6 +30,7 @@ namespace Vet.Areas.Admin.Controllers
                     Animal = new AnimalDal().GetAsync((i.Inspection?.AnimalId.GetValueOrDefault()).GetValueOrDefault()).Result,
                     Vet = new VetsDal().GetAsync((i.Inspection?.VetId.GetValueOrDefault()).GetValueOrDefault()).Result
                 },
+                Diagnos = i.Diagnos
                 
             } ).ToList();
             var count = treatment.Count;
@@ -48,14 +49,16 @@ namespace Vet.Areas.Admin.Controllers
                 var workSheet = XMLBook.Worksheets.Add("Treatments");
                 workSheet.Cell("A1").Value = "Питомец";
                 workSheet.Cell("B1").Value = "Лечащий врач";
-                workSheet.Cell("C1").Value = "Описание";
-               
-                for (int i = 0; i < treatments.Count; i++)
+                workSheet.Cell("C1").Value = "Предписание врача";
+                workSheet.Cell("D1").Value = "Диагноз";
+
+                for (int i = 0; i < treatments?.Count; i++)
                 {
                     workSheet.Cell(i + 2, 1).Value = treatments[i].Inspection?.Animal?.NickName;
                     workSheet.Cell(i + 2, 2).Value = treatments[i].Inspection?.Vet?.Name + " " + treatments[i].Inspection?.Vet?.FatherName;
                     workSheet.Cell(i + 2, 3).Value = treatments[i].Description;
-                   
+                    workSheet.Cell(i + 2, 4).Value = treatments[i].Diagnos?.Name;
+
                 }
                
                     XMLBook.SaveAs(test.WebRootPath + parth);

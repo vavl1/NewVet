@@ -40,7 +40,8 @@ namespace Vet.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                var inspection = await new InspectionDal().GetAsync(model.InspectionId.GetValueOrDefault());
+                inspection.IsOk = true;
                 var diagnosId = await new DiagnosisDal().AddOrUpdateAsync(new Entities.DiagnosisEntity()
                 {
                     AnimalId = model.AnimalId,
@@ -51,9 +52,11 @@ namespace Vet.Areas.Admin.Controllers
                 var treatment = await new TreatmetsDal().AddOrUpdateAsync(new Entities.TreatmentEntity
                 {
                     Description = model.Description,
-                    InspectionId = model.InspectionId
+                    InspectionId = model.InspectionId,
+                    DiagnosId = diagnosId
+                    
                 });
-                
+                await new InspectionDal().AddOrUpdateAsync(inspection);
             }
            
             return Redirect("/Admin/Worker/Index/"+model.VetId);
@@ -66,6 +69,7 @@ namespace Vet.Areas.Admin.Controllers
                 var inspections = (await new InspectionDal().GetAsync(new InspectionSearchParams() { Date = model.Date })).Objects.ToList();
                 if (inspections.Count == 0)
                 {
+                    model.IsOk = false;
                     await new InspectionDal().AddOrUpdateAsync(model);
                 }
             }

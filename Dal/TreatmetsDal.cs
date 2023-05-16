@@ -29,6 +29,7 @@ namespace Dal
             dbObject.IsDischarged = entity.IsDischarged;
             dbObject.Description = entity.Description;
             dbObject.InspectionId = entity.InspectionId;
+            dbObject.DiagnosId = entity.DiagnosId;
           
 
 
@@ -48,7 +49,9 @@ namespace Dal
 
         protected override async Task<IList<TreatmentEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<Treatment> dbObjects, object convertParams, bool isFull)
         {
+            dbObjects = dbObjects.Include(i => i.Diagnos);
             dbObjects = dbObjects.Include(i => i.Inspection);
+            
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -69,9 +72,10 @@ namespace Dal
                 Id = dbObject.Id,
                 IsDischarged = dbObject.IsDischarged,
                 InspectionId = dbObject.InspectionId,
+                DiagnosId = dbObject.DiagnosId,
                 Description = dbObject.Description,
                Inspection = InspectionDal.ConvertDbObjectToEntity(dbObject.Inspection),
-                
+                Diagnos = DiagnosisDal.ConvertDbObjectToEntity(dbObject.Diagnos),
 
 
             };

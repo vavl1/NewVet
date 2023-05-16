@@ -25,7 +25,7 @@
     <thead>
         <tr>
             <th>
-                Питомец
+               Питомец
             </th>
             <th>
                Лечащий врач
@@ -33,7 +33,9 @@
             <th>
                Описание
             </th>
-            
+            <th>
+               Диагноз
+            </th>
            
         </tr>
     </thead>
@@ -50,7 +52,9 @@
             <td>
                 @item.Description
             </td>
-            
+             <td>
+                @item.Diagnos?.Name
+            </td>  
             
         </tr>
        }
@@ -77,11 +81,10 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $("#test").click(function () {
-               
-            });
+           
             $("#test").click(function () {
                 var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model.Objects)))")
+                console.log(items);
                 $.ajax({
                     url: '/Admin/Treatment/Download',
                     data: { treatments: items },
