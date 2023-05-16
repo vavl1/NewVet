@@ -68,38 +68,8 @@
     
   
 </div>
-<div class="row">
-    <div class="col-md-12 grid-margin">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <h4 class="font-weight-bold mb-0">Питомцы проходящие лечение у данного врача</h4>
-            </div>
-           
-        </div>
-    </div>
-    @foreach (var item in treatments)
-    {
-        <div class="col-md-4 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
 
-                    <p class="card-description">
-                        Кличка животного:  @item.Animal?.NickName
-                    </p>
-                   
-                    <p class="card-description">
-                        Дата начала:  @item.DateStart.GetValueOrDefault().ToShortDateString() Дата конца: @item.DateEnd.GetValueOrDefault().ToShortDateString();
-                    </p>
-
-                  
-
-
-                </div>
-            </div>
-        </div>
-    }
     
-</div>
 <div class="row">
     <div class="col-md-12 grid-margin">
         <div class="d-flex justify-content-between align-items-center">

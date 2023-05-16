@@ -18,7 +18,7 @@ namespace VetAnimalOwnerLK.Areas.Public.Controllers
 Date = i.Date,
 Description =i.Description,
 Animal = i.Animal,
-Treatment = i.Treatment,
+
 Vet = new VetsDal().GetAsync(i.VetId.GetValueOrDefault()).Result,
 
             }).ToList();

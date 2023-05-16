@@ -23,11 +23,7 @@ public partial class Vet
 
     public string? PhotoParth { get; set; }
 
-    public virtual ICollection<Animal> Animals { get; } = new List<Animal>();
-
     public virtual ICollection<Diagnosis> Diagnoses { get; } = new List<Diagnosis>();
 
     public virtual ICollection<Inspection> Inspections { get; } = new List<Inspection>();
-
-    public virtual ICollection<Treatment> Treatments { get; } = new List<Treatment>();
 }

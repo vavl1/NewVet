@@ -29,7 +29,7 @@ public partial class DefaultDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=IGA;Initial Catalog=VetClinicDb; TrustServerCertificate=True; Integrated security=True");
+        => optionsBuilder.UseSqlServer("Data Source=IGA;Initial Catalog=VetClinicDb;Integrated security=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -38,14 +38,13 @@ public partial class DefaultDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Animals__3214EC07F2EA635F");
 
             entity.Property(e => e.Birthay).HasColumnType("datetime");
+            entity.Property(e => e.IsHealthy)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
 
             entity.HasOne(d => d.AnimalOwnerNavigation).WithMany(p => p.Animals)
                 .HasForeignKey(d => d.AnimalOwner)
                 .HasConstraintName("FK__Animals__AnimalO__15502E78");
-
-            entity.HasOne(d => d.Vet).WithMany(p => p.Animals)
-                .HasForeignKey(d => d.VetId)
-                .HasConstraintName("FK__Animals__VetId__145C0A3F");
         });
 
         modelBuilder.Entity<AnimalOwner>(entity =>
@@ -74,13 +73,11 @@ public partial class DefaultDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Inspecti__3214EC07343785B8");
 
+            entity.Property(e => e.Date).HasColumnType("datetime");
+
             entity.HasOne(d => d.Animal).WithMany(p => p.Inspections)
                 .HasForeignKey(d => d.AnimalId)
                 .HasConstraintName("FK__Inspectio__Anima__37A5467C");
-
-            entity.HasOne(d => d.Treatment).WithMany(p => p.Inspections)
-                .HasForeignKey(d => d.TreatmentId)
-                .HasConstraintName("FK__Inspectio__Treat__38996AB5");
 
             entity.HasOne(d => d.Vet).WithMany(p => p.Inspections)
                 .HasForeignKey(d => d.VetId)
@@ -91,16 +88,9 @@ public partial class DefaultDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Treatmen__3214EC07C513B4D6");
 
-            entity.Property(e => e.DateEnd).HasColumnType("datetime");
-            entity.Property(e => e.DateStart).HasColumnType("datetime");
-
-            entity.HasOne(d => d.Animal).WithMany(p => p.Treatments)
-                .HasForeignKey(d => d.AnimalId)
-                .HasConstraintName("FK__Treatment__Anima__1CF15040");
-
-            entity.HasOne(d => d.Vet).WithMany(p => p.Treatments)
-                .HasForeignKey(d => d.VetId)
-                .HasConstraintName("FK__Treatment__VetId__1BFD2C07");
+            entity.HasOne(d => d.Inspection).WithMany(p => p.Treatments)
+                .HasForeignKey(d => d.InspectionId)
+                .HasConstraintName("FK_Treatments_Inspections");
         });
 
         modelBuilder.Entity<Vet>(entity =>

@@ -9,11 +9,14 @@ namespace Vet.Areas.Admin.Models
         public int? VetId { get; set; }
         [Display(Name = "Питомец")]
         public int? AnimalId { get; set; }
-        [Display(Name = "Дата начала")]
-        public DateTime? DateStart { get; set; }
-        [Display(Name = "Дата конца")]
-        public DateTime? DateEnd { get; set; }
         [Display(Name = "Диагноз")]
+       
         public string? Diagnos { get; set; }
+
+        [Display(Name = "Предписание по лечению")]
+        public string? Description { get; set; }
+       
+        public int? InspectionId { get; set; }
     }
 }
+

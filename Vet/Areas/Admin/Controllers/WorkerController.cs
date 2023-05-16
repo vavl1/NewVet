@@ -22,26 +22,25 @@ namespace Vet.Areas.Admin.Controllers
            
             return View(inspections);
         }
-        public async Task<IActionResult> CanselTreatment(int? animalid, int? treatmentid, int? vetId)
-        {
-            var pet = await new AnimalDal().GetAsync(animalid.GetValueOrDefault());
-            pet.VetId = null;
-            await new AnimalDal().AddOrUpdateAsync(pet);
-            var treatment = await new TreatmetsDal().GetAsync(treatmentid.GetValueOrDefault());
-            treatment.DateEnd = DateTime.Now;
-            treatment.IsDischarged = true;
-            await new TreatmetsDal().AddOrUpdateAsync(treatment);
+        //public async Task<IActionResult> CanselTreatment(int? animalid, int? treatmentid, int? vetId)
+        //{
+        //    var pet = await new AnimalDal().GetAsync(animalid.GetValueOrDefault());
+        //    pet.VetId = null;
+        //    await new AnimalDal().AddOrUpdateAsync(pet);
+        //    var treatment = await new TreatmetsDal().GetAsync(treatmentid.GetValueOrDefault());
+        //    treatment.DateEnd = DateTime.Now;
+        //    treatment.IsDischarged = true;
+        //    await new TreatmetsDal().AddOrUpdateAsync(treatment);
 
            
-            return Redirect("/Admin/Worker/Index/" +vetId);
-        }
+        //    return Redirect("/Admin/Worker/Index/" +vetId);
+        //}
         [HttpPost]
         public async Task<IActionResult> CreateTreatment(TreatmentModel model)
         {
             if (ModelState.IsValid)
             {
-                var animal = await new AnimalDal().GetAsync(model.AnimalId.GetValueOrDefault());
-                animal.VetId = model.VetId;
+                
                 var diagnosId = await new DiagnosisDal().AddOrUpdateAsync(new Entities.DiagnosisEntity()
                 {
                     AnimalId = model.AnimalId,
@@ -51,12 +50,10 @@ namespace Vet.Areas.Admin.Controllers
                 });
                 var treatment = await new TreatmetsDal().AddOrUpdateAsync(new Entities.TreatmentEntity
                 {
-                    AnimalId = model.AnimalId,
-                    VetId = model.VetId,
-                    DateStart = model.DateStart,
-                    DateEnd = model.DateEnd
+                    Description = model.Description,
+                    InspectionId = model.InspectionId
                 });
-                await new AnimalDal().AddOrUpdateAsync(animal);
+                
             }
            
             return Redirect("/Admin/Worker/Index/"+model.VetId);

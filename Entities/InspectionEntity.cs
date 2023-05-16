@@ -14,14 +14,12 @@ namespace Entities
 
         public int? AnimalId { get; set; }
 
-        public int? TreatmentId { get; set; }
-
         public string? Description { get; set; }
         public DateTime? Date { get; set; }
-
+        public bool? IsOk { get; set; }
         public virtual AnimalEntity? Animal { get; set; }
 
-        public virtual TreatmentEntity? Treatment { get; set; }
+        public virtual ICollection<TreatmentEntity> Treatments { get; } = new List<TreatmentEntity>();
 
         public virtual VetEntity? Vet { get; set; }
     }

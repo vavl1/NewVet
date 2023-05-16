@@ -30,8 +30,8 @@ namespace Dal
             dbObject.NickName = entity.NickName;
             dbObject.Gender = entity.Gender;
             dbObject.AnimalOwner = entity.AnimalOwner;
-            dbObject.VetId = entity.VetId;
             dbObject.PhotoParth = entity.PhotoParth;    
+            dbObject.IsHealthy= entity.IsHealthy;
 
 
 
@@ -50,7 +50,7 @@ namespace Dal
 
         protected override async Task<IList<AnimalEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<Animal> dbObjects, object convertParams, bool isFull)
         {
-            dbObjects = dbObjects.Include(i => i.Vet);
+          
             dbObjects = dbObjects.Include(i => i.Diagnoses);
          
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
@@ -74,12 +74,12 @@ namespace Dal
                 Birthay = dbObject.Birthay,
                 Gender = dbObject.Gender,
                 Id = dbObject.Id,
-                VetId = dbObject.VetId,
                 Breed = dbObject.Breed,
                 AnimalOwner = dbObject.AnimalOwner,
                 PhotoParth = dbObject.PhotoParth,
+                IsHealthy = dbObject.IsHealthy,
                 Diagnoses = dbObject.Diagnoses.Select(DiagnosisDal.ConvertDbObjectToEntity).ToList(),
-                Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet)
+               
 
 
             };

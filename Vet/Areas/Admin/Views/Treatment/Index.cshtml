@@ -31,11 +31,9 @@
                Лечащий врач
             </th>
             <th>
-                начало лечения
+               Описание
             </th>
-            <th>
-               Предположительный конец лечения
-            </th>
+            
            
         </tr>
     </thead>
@@ -44,20 +42,16 @@
         {
         <tr>
             <td class="py-1">
-             @item.Animal?.NickName
+             @item.Inspection?.Animal?.NickName
             </td>
             <td>
-                @(item.Vet?.Name+" "+ item.Vet?.FatherName)
+                @(item.Inspection?.Vet?.Name+" "+ item.Inspection?.Vet?.FatherName)
             </td>
             <td>
-                @item.DateStart?.ToShortDateString()
+                @item.Description
             </td>
-            <td>
-                    @item.DateEnd?.ToShortDateString()
-            </td>
-            <td>
-               
-            </td>
+            
+            
         </tr>
        }
     </tbody>

@@ -40,11 +40,10 @@
                     </p>
                    
                     <p class="card-description">
-                        <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.AnimalId" id="">Назначить лечение</button>
+                        <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.Id" id="">Назначить лечение</button>
                         
                     </p>
-                    <a href="/Admin/Worker/CanselInspection?inspectionId=@item.Id&&vetId=@item.VetId" class="btn btn-outline-danger btn-fw priem">закончить осмотр</a>
-                    
+                   
                    
 
 
@@ -54,41 +53,7 @@
     }
 
 </div>
-<div class="row">
-    <div class="col-md-12 grid-margin">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <h4 class="font-weight-bold mb-0">Питомцы проходящие лечение у данного врача</h4>
-            </div>
-            
-        </div>
-    </div>
-    @foreach (var item in treatments)
-    {
-        <div class="col-md-4 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
 
-                    <p class="card-description">
-                        Кличка животного:  @item.Animal?.NickName
-                    </p>
-                    <p class="card-description">
-                        Дата начала: @(item.DateStart.GetValueOrDefault().ToShortDateString()) 
-                    </p>
-                    <p class="card-description">
-                      Дата конца: @(item.DateEnd.GetValueOrDefault().ToShortDateString());
-                    </p>
-                     <p class="card-description">
-                    <a asp-area="Admin" asp-controller="Worker" asp-action="CanselTreatment" asp-route-animalid="@item.AnimalId" asp-route-treatmentid="@item.Id" asp-route-vetid="@item.VetId" class="btn btn-outline-danger btn-fw">Выписать</a>
-                    </p>
-                    <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#CreateInspection" data="@item.AnimalId" data-treatment="@item.Id" data-VetId="@item.VetId">Назначить осмотр</button>
-
-                </div>
-            </div>
-        </div>
-    }
-
-</div>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -98,70 +63,18 @@
             </div>
             <form id="form" action="/Admin/Worker/CreateTreatment" method="post">
                 <div class="modal-body">
-
-                    <input type="hidden" name="VetId" value="@(Model?.FirstOrDefault()?.VetId)"/>
-                    <input type="hidden" name="AnimalId" id="AnimalId"/>
-
-                     <div class="form-group">
-                            <label>дата приема с</label>
-
-                        <input type="text" class="form-control form-control-sm" id="datetimepickerStart" name="DateStart" style="width:425px" required>
-                        <label>по</label>
-                            <input type="text" class="form-control form-control-sm" id="datetimepickerEnd" name="DateEnd" style="width:425px" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Диагноз</label>
+                    <input type="hidden" name="InspectionId" id="InspectionId" />
+                    <input type="hidden" name="VetId" id="VetId" value="@vetId" />
+                    <div class="form-group">
+                        <label>Диагноз</label>
 
                         <input type="text" class="form-control form-control-sm" name="Diagnos" required>
-                        </div>
-                   
-
-
-                  
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="CreateInspection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Создание приема</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="formInspection" action="/Admin/Worker/CreateInspection" method="post">
-                <div class="modal-body">
-                    <input type="hidden" name="Id" value="0"/>
-                    <input type="hidden" name="TreatmentId" id="TreatmentId" />
-                    <input type="hidden" name="VetId" value="@(Model?.FirstOrDefault()?.VetId)" id="VetIdInspection" />
-                    <input type="hidden" name="AnimalId" id="AnimalIdInspection" />
-
-                    <div class="form-group">
-                        <label>дата приема </label>
-
-                        <input type="text" class="form-control form-control-sm" id="datetimepicker" name="Date" style="width:425px" required>
-                        
                     </div>
                     <div class="form-group">
-                        <label>время приема</label>
-
-                        <input type="text" class="form-control form-control-sm" data-time-format="H:i" id="timepiker" name="Time" style="width:425px" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Описание</label>
+                        <label>Предписание по лечению</label>
 
                         <input type="text" class="form-control form-control-sm" name="Description" required>
                     </div>
-
-
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
@@ -171,63 +84,17 @@
         </div>
     </div>
 </div>
+
 
 @section Scripts{
     <script>
         $(document).ready(function(){
-            $('#datetimepickerStart').Zebra_DatePicker({
-                direction: true,
-                pair: $('#datetimepickerEnd')
-            });
-
-            $('#datetimepickerEnd').Zebra_DatePicker({
-                direction: 1
-            });
-            var id = $("#VetId").val();
-            $.ajax({
-                url: '/Admin/Worker/GetDisableDates',
-                data: { id: id },
-
-                success: function (data) {
-                    var test = ['* * * 0,6']
-                    test = test.concat(JSON.parse(data));
-                    console.log(test);
-                    $('#datetimepicker').Zebra_DatePicker({
-
-                        inside: false,
-                        disabled_dates: test,
-                        onChange: function (view, elements) {
-                            console.log(elements);
-                        },
-                        onSelect: function () {
-                            var date = $("#datetimepicker").val();
-                            var id = $("#VetId").val();
-                        
-                            $.ajax({
-                                url: '/Admin/Worker/GetDisableTimes',
-                                data: { date: date, id: id },
-
-                                success: function (data) {
-                                    data = JSON.parse(data)
-
-                                    $('#timepiker').timepicker({
-                                        'step': '60',
-                                        'minTime': '10:00',
-                                        'maxTime': '18:00',
-                                        'disableTimeRanges': data
-
-                                    });
-                                }
-                            })
-                        }
-                    });
-                }
-            })
+           
+           
             $(".priem").click(function(){
-                $("#AnimalId").val($(this).attr("data"));
-                $("#TreatmentId").val($(this).attr("data-treatment"));
-                $("#AnimalIdInspection").val($(this).attr("data"));
-                $("#VetIdInspection").val($(this).attr("data-VetId"));
+                $("#InspectionId").val($(this).attr("data"));
+                $("#InspectionId").val($(this).attr("data"));
+                
             })
         })
        

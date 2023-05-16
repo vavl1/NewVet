@@ -16,7 +16,10 @@ public partial class AnimalOwner
     public string? Phone { get; set; }
 
     public string? Adress { get; set; }
+
     public string? Login { get; set; }
+
     public string? Password { get; set; }
+
     public virtual ICollection<Animal> Animals { get; } = new List<Animal>();
 }

@@ -38,11 +38,9 @@ namespace Entities
         [Display(Name = "Изображение")]
         public string? PhotoParth { get; set; }
 
-        public virtual ICollection<AnimalEntity> Animals { get; } = new List<AnimalEntity>();
+
 
         public virtual ICollection<DiagnosisEntity> Diagnoses { get; } = new List<DiagnosisEntity>();
-
-        public virtual ICollection<TreatmentEntity> Treatments { get; set; } = new List<TreatmentEntity>();
         public virtual ICollection<InspectionEntity> Inspections { get; set; } = new List<InspectionEntity>();
     }
 }

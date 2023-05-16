@@ -26,7 +26,7 @@ namespace Dal
         protected override Task UpdateBeforeSavingAsync(DefaultDbContext context, InspectionEntity entity, Inspection dbObject, bool exists)
         {
             dbObject.AnimalId = entity.AnimalId;
-            dbObject.TreatmentId = entity.TreatmentId;
+            dbObject.IsOk = entity.IsOk;
             dbObject.VetId = entity.VetId;
             dbObject.Description = entity.Description;
             dbObject.Date = entity.Date;
@@ -62,7 +62,7 @@ namespace Dal
         protected override async Task<IList<InspectionEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<Inspection> dbObjects, object convertParams, bool isFull)
         {
             dbObjects = dbObjects.Include(i => i.Animal);
-            dbObjects = dbObjects.Include(i => i.Vet);
+           // dbObjects = dbObjects.Include(i => i.Vet);
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -82,13 +82,14 @@ namespace Dal
             {
                 
                 Id = dbObject.Id,
-             TreatmentId = dbObject.TreatmentId,
+            
              Description = dbObject.Description,
                 AnimalId = dbObject.AnimalId,
                 VetId = dbObject.VetId,
+                IsOk = dbObject.IsOk,
                 Date = dbObject.Date,
                 Animal = AnimalDal.ConvertDbObjectToEntity(dbObject.Animal),
-                //Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet),
+              //  Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet),
             };
         }
     }

@@ -25,12 +25,10 @@ namespace Dal
 
         protected override Task UpdateBeforeSavingAsync(DefaultDbContext context, TreatmentEntity entity, Treatment dbObject, bool exists)
         {
-            dbObject.AnimalId = entity.AnimalId;
-            dbObject.VetId = entity.VetId;
-            dbObject.DateEnd = entity.DateEnd;
-            dbObject.DateStart = entity.DateStart;
-            dbObject.AnimalId = entity.AnimalId;
+            
             dbObject.IsDischarged = entity.IsDischarged;
+            dbObject.Description = entity.Description;
+            dbObject.InspectionId = entity.InspectionId;
           
 
 
@@ -39,14 +37,7 @@ namespace Dal
 
         protected override Task<IQueryable<Treatment>> BuildDbQueryAsync(DefaultDbContext context, IQueryable<Treatment> dbObjects, TreatmentSearchParams searchParams)
         {
-            if (searchParams.VetId != null)
-            {
-                dbObjects = dbObjects.Where(i => i.VetId == searchParams.VetId);
-            }
-            if (searchParams.AnimalId != null)
-            {
-                dbObjects = dbObjects.Where(i => i.AnimalId == searchParams.AnimalId) ;
-            }
+           
             if (searchParams.IsDischarged != null)
             {
                 dbObjects = dbObjects.Where(i => i.IsDischarged != searchParams.IsDischarged);
@@ -57,9 +48,7 @@ namespace Dal
 
         protected override async Task<IList<TreatmentEntity>> BuildEntitiesListAsync(DefaultDbContext context, IQueryable<Treatment> dbObjects, object convertParams, bool isFull)
         {
-            dbObjects = dbObjects.Include(i => i.Animal);
-            dbObjects = dbObjects.Include(i => i.Vet);
-
+            dbObjects = dbObjects.Include(i => i.Inspection);
             return (await dbObjects.ToListAsync()).Select(ConvertDbObjectToEntity).ToList();
         }
 
@@ -78,13 +67,10 @@ namespace Dal
             return dbObject == null ? null : new TreatmentEntity
             {
                 Id = dbObject.Id,
-               DateStart = dbObject.DateStart,
-               DateEnd = dbObject.DateEnd,
-                AnimalId = dbObject.AnimalId,
-                VetId = dbObject.VetId,
                 IsDischarged = dbObject.IsDischarged,
-                Animal = AnimalDal.ConvertDbObjectToEntity(dbObject.Animal),
-                Vet = VetsDal.ConvertDbObjectToEntity(dbObject.Vet),
+                InspectionId = dbObject.InspectionId,
+                Description = dbObject.Description,
+               Inspection = InspectionDal.ConvertDbObjectToEntity(dbObject.Inspection),
                 
 
 

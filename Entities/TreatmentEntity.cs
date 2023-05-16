@@ -10,17 +10,13 @@ namespace Entities
     {
         public int Id { get; set; }
 
-        public int? VetId { get; set; }
-
-        public int? AnimalId { get; set; }
+      
         public bool? IsDischarged { get; set; }
 
-        public DateTime? DateStart { get; set; }
+        public int? InspectionId { get; set; }
 
-        public DateTime? DateEnd { get; set; }
+        public string? Description { get; set; }
 
-        public virtual AnimalEntity? Animal { get; set; }
-
-        public virtual VetEntity? Vet { get; set; }
+        public virtual InspectionEntity? Inspection { get; set; }
     }
 }
