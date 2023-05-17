@@ -55,14 +55,9 @@ namespace Vet.Areas.Admin.Controllers
        
         public async Task<IActionResult> DeleteVet(int id)
         {
-            try
-            {
+            
                 await new VetsDal().DeleteAsync(id);
-            }
-            catch(Exception ex)
-            {
-
-            }
+           
 
             return Redirect("/Admin/Vet/Index");
         }

@@ -38,8 +38,22 @@ namespace Vet.Areas.Admin.Controllers
             return View(new PageModel<TreatmentEntity>(count,page,pageSize,items));
         }
         [HttpPost]
-        public async Task DownLoad(List<TreatmentEntity>? treatments)
+        public async Task DownLoad(int page, int pageSize=5)
         {
+            var treatments = (await new TreatmetsDal().GetAsync(new TreatmentSearchParams() { })).Objects.Select(i => new TreatmentEntity
+            {
+                Description = i.Description,
+                IsDischarged = i.IsDischarged,
+                Id = i.Id,
+                Inspection = new InspectionEntity()
+                {
+                    Animal = new AnimalDal().GetAsync((i.Inspection?.AnimalId.GetValueOrDefault()).GetValueOrDefault()).Result,
+                    Vet = new VetsDal().GetAsync((i.Inspection?.VetId.GetValueOrDefault()).GetValueOrDefault()).Result
+                },
+                Diagnos = i.Diagnos
+
+            }).ToList();
+            treatments = treatments.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             var name = $"data_{DateTime.Now.ToShortDateString()}.xlsx";
             var parth = "/images/" + name;
             using (var XMLBook = new XLWorkbook())

@@ -83,11 +83,11 @@
         $(document).ready(function () {
            
             $("#test").click(function () {
-                var items = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model.Objects)))")
-                console.log(items);
+                var item = JSON.parse("@Html.Raw(HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(Model)))")
+                var page = item.PageNumber;
                 $.ajax({
                     url: '/Admin/Treatment/Download',
-                    data: { treatments: items },
+                    data: { page: page },
                     type: 'POST',
                     success: function () {
                         var xhr = new XMLHttpRequest();

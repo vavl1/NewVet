@@ -8,6 +8,29 @@
     var treatments = ViewBag.Treatments as List<TreatmentEntity>;
 }
 @model List<InspectionEntity>
+<style>
+    div#expand {
+        display: none;
+    }
+
+    .arrow {
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+        margin-left: 10px;
+    }
+
+    .up {
+        transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+    }
+
+    .down {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+    }
+</style>
 <div class="row">
     <div class="col-md-12 grid-margin">
         <form href="/Admin/Vet/DetailsVet">
@@ -72,25 +95,27 @@
     
 <div class="row">
     <div class="col-md-12 grid-margin">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
+        <div class="d-flex align-items-center">
+            <div id="clickToSearch">
                 <h4 class="font-weight-bold mb-0">График нагрузки врача</h4>
+                <i class="arrow up" id="arr"></i>
             </div>
 
         </div>
     </div>
-  
-    <p class="fs-6">Имя</p>
+    <div id="expand">
+    <p class="fs-6">Месяц</p>
     <input type="text" class="form-control form-control-sm"  id="searchDate" style="width:200px">
     <div class="col-12 grid-margin stretch-card">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" >
                     <h4 class="card-title">График загруженности </h4>
                     <canvas id="barChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
+ </div>
 @section Scripts{
     <script>
         let chart;
@@ -137,7 +162,7 @@
                             data: {
                                 labels: test[0],
                                 datasets: [{
-                                    label: 'степень загруженности',
+                                    label: 'количество поситителей',
                                     data: test[1],
                                     borderWidth: 1
                                 }]
@@ -173,7 +198,16 @@
         });
        
         $(document).ready(function(){
-            
+            $("#clickToSearch").click(function () {
+                $("#expand").slideToggle()
+                if ($("#arr").hasClass("up")) {
+                    $("#arr").removeClass("up").addClass("down");
+
+                }
+                else {
+                    $("#arr").removeClass("down").addClass("up");
+                }
+            });
            getBar();
            
 
