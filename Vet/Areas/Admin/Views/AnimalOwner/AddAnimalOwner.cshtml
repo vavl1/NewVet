@@ -11,39 +11,43 @@
         <div class="card-body">
             <h4 class="card-title">Создание Владельца животного</h4>
 
-            <form class="forms-sample" asp-area="Admin" asp-controller="AnimalOwner" asp-action="AddAnimalOwner">
+            <form class="row g-3" asp-area="Admin" asp-controller="AnimalOwner" asp-action="AddAnimalOwner">
 
                 <input type="hidden" asp-for="Id" value="0" />
-                <div class="form-group">
+                <div class="col-md-4">
                     <label for="exampleInputCity1" asp-for="Name"></label>
                     <input type="text" class="form-control"  asp-for="Name">
                     <span asp-validation-for="Name" class=" mb-3 fw-normal"></span>
                 </div>
-                <div class="form-group">
+                <div class="col-md-4">
                     <label for="exampleInputCity1" asp-for="LastName"></label>
                     <input type="text" class="form-control"  asp-for="LastName">
                     <span asp-validation-for="LastName" class=" mb-3 fw-normal"></span>
                 </div>
-                <div class="form-group">
+                <div class="col-md-4">
                     <label for="exampleInputCity1" asp-for="FatherName"></label>
                     <input type="text" class="form-control"  asp-for="FatherName">
                     <span asp-validation-for="FatherName" class=" mb-3 fw-normal"></span>
                 </div>
-                <div class="form-group">
+                <div class="col-md-6">
                     <label for="exampleInputCity1" asp-for="Phone"></label>
                     <input type="text" class="form-control"  asp-for="Phone">
                     <span asp-validation-for="Phone" class=" mb-3 fw-normal"></span>
                 </div>
-                <div class="form-group">
+                <div class="col-md-6">
                     <label for="exampleInputCity1" asp-for="Adress"></label>
                     <input type="text" class="form-control" asp-for="Adress">
                     <span asp-validation-for="Adress" class=" mb-3 fw-normal"></span>
                 </div>
 
-
-
-                <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
-                <a href="/Admin/AnimalOwner/Index" class="btn btn-light">Отмена</a>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
+                </div>
+                <div class="col-md-3">
+                    <a href="/Admin/AnimalOwner/Index" class="btn btn-light">Отмена</a>
+                </div>
+                
+                
             </form>
         </div>
     </div>

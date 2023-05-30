@@ -78,7 +78,7 @@
                     <div class="form-group">
                         <label>Предписание по лечению</label>
 
-                        <input type="text" class="form-control form-control-sm" name="Description" required>
+                        <textarea class="form-control form-control-sm" name="Description" id="default-editor"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -94,7 +94,9 @@
 @section Scripts{
     <script>
         $(document).ready(function(){
-           
+            tinymce.init({
+                selector: 'textarea#default-editor'
+            });
            
             $(".priem").click(function(){
                 $("#InspectionId").val($(this).attr("data"));

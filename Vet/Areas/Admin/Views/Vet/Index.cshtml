@@ -135,7 +135,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Заявка на приемы</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
             </div>
-            <form id="form" action="/Admin/Vet/CreateInspection" method="post" >
+            <form class="row g-3" id="form" action="/Admin/Vet/CreateInspection" method="post">
                 <div class="modal-body">
 
                     <input type="hidden" name="Id" value="0" />
@@ -145,29 +145,29 @@
                     <div class="card-body">
                         
 
-                        <div class="form-group">
+                        <div class="col-md-12">
                             <label>Владелец</label>
                             <select class="form-control" id="select2"  asp-items="@ViewBag.AnimalOwners" style="width:450px">
                             </select>
                         </div>
                       
-                        <div class="form-group">
+                        <div class="col-md-12">
                             <label>Питомец</label>
                             <select class="form-control" id="animals"  style="width:450px" name="AnimalId" required>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="col-md-12">
                             <label>дата приема</label>
 
                             <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Date" style="width:425px" required>
                         </div>
-                        <div class="form-group">
+                        <div class="col-md-12">
                             <label>время приема</label>
 
                             <input type="text" class="form-control form-control-sm" data-time-format="H:i" id="timepiker" name="Time" style="width:425px" required>
                         </div>
 
-                        <div class="form-group">
+                        <div class="col-md-12">
                             <label>Описание</label>
 
                             <input type="text" class="form-control form-control-sm"  name="Description" >
