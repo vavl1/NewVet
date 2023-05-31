@@ -10,29 +10,29 @@
                 <div class="col-lg-4 mx-auto">
                     <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                         
-                        <h4>New here?</h4>
-                        <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-                        <form class="pt-3" asp-controller="Account" asp-action="Registration">
-                            <div class="form-group">
+                        <h4>Новенький?</h4>
+                        <h6 class="font-weight-light">Что бы зарегистрироваться заполните данные поля</h6>
+                        <form class="row g-3 pt-3" asp-controller="Account" asp-action="Registration">
+                            <div class="col-md-6">
                                 <label asp-for="Name" class="h5 mb-3 fw-normal"></label>
-                                <input asp-for="Name" type="text" class="form-control form-control-lg" id="exampleInputUsername1" >
+                                <input asp-for="Name" type="text" class="form-control" id="exampleInputUsername1" >
                             </div>
-                            <div class="form-group">
+                            <div class="col-md-6">
                                 <label asp-for="LastName" class="h5 mb-3 fw-normal"></label>
-                                <input asp-for="LastName" type="text" class="form-control form-control-lg" id="exampleInputUsername1" >
+                                <input asp-for="LastName" type="text" class="form-control" id="exampleInputUsername1" >
                             </div>
-                            <div class="form-group">
+                            <div class="col-md-12">
                                 <label asp-for="FatherName" class="h5 mb-3 fw-normal"></label>
-                                <input asp-for="FatherName" type="text" class="form-control form-control-lg" id="exampleInputUsername1" >
+                                <input asp-for="FatherName" type="text" class="form-control" id="exampleInputUsername1" >
                             </div>
-                            <div class="form-group">
+                            <div class="col-md-6">
                                 <label asp-for="Login" class="h5 mb-3 fw-normal"></label>
-                                <input asp-for="Login" type="text" class="form-control form-control-lg" id="exampleInputEmail1" >
+                                <input asp-for="Login" type="text" class="form-control" id="exampleInputEmail1" >
                             </div>
                             
-                            <div class="form-group">
+                            <div class="col-md-6">
                                 <label asp-for="Password" class="h5 mb-3 fw-normal"></label>
-                                <input asp-for="Password"  type="password" class="form-control form-control-lg" id="exampleInputPassword1" >
+                                <input asp-for="Password"  type="password" class="form-control" id="exampleInputPassword1" >
                             </div>
                             
                             <div class="mt-3">

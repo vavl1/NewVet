@@ -4,8 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-        options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Home/Index");
+        options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Home/Index");
     });
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -35,7 +35,11 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
      name: "default",
-     pattern: "{controller=Account}/{action=Login}/{id?}"
+     pattern: "{controller=Home}/{action=Index}/{id?}"
+   );
+app.MapControllerRoute(
+	 name: "login",
+	 pattern: "{controller=Account}/{action=Login}/{id?}"
    );
 
 app.Run();
