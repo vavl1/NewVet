@@ -19,7 +19,7 @@ public partial class Animal
 
     public string? PhotoParth { get; set; }
 
-    public bool? IsHealthy { get; set; }
+    public bool? IsActive { get; set; }
 
     public virtual AnimalOwner? AnimalOwnerNavigation { get; set; }
 

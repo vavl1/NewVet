@@ -33,7 +33,7 @@ namespace VetAnimalOwnerLK.Areas.Public.Controllers
                 }
             };
           
-            var pets = (await new AnimalDal().GetAsync(new AnimalSearchParams() { AnimalOwnerId = AnimalOwnerParams.Id })).Objects.ToList();
+            var pets = (await new AnimalDal().GetAsync(new AnimalSearchParams() { AnimalOwnerId = AnimalOwnerParams.Id, IsActive= true })).Objects.ToList();
             var vets = (await new VetsDal().GetAsync(new VetSearchParams() { Role = RoleType.vet })).Objects.Select(i => new SelectListItem { Value = i.Id.ToString(), Text = i.LastName + " " + i.Name + " " + i.FatherName }).ToList();
             ViewBag.Vets = vets;
             return View(pets);
@@ -84,7 +84,9 @@ namespace VetAnimalOwnerLK.Areas.Public.Controllers
             if (id != null)
             {
 
-                var animal = await new AnimalDal().DeleteAsync(id.GetValueOrDefault());
+                var animal = await new AnimalDal().GetAsync(id.GetValueOrDefault());
+                animal.IsActive = false;
+                await new AnimalDal().AddOrUpdateAsync(animal);
 
 
             }
@@ -101,8 +103,8 @@ namespace VetAnimalOwnerLK.Areas.Public.Controllers
         }
         private async Task<IEnumerable<string>> GetDisableDates(List<DateTime?>? inspections)
         {
-            var dates = inspections.GroupBy(i => i.Value.Day);
-            var td = dates.Select(i => new List<string>() { i.FirstOrDefault().Value.ToShortDateString(), i.Count().ToString() });
+            var dates = inspections?.GroupBy(i => i.Value.Day);
+            var td = dates?.Select(i => new List<string>() { i.FirstOrDefault().Value.ToShortDateString(), i.Count().ToString() });
             var disableDates = td.Where(i => int.Parse(i[1]) == 9).Select(i => i[0]).ToList();
             return disableDates;
         }

@@ -9,5 +9,6 @@ namespace Entities.SearchParams
     public class AnimalSearchParams:BaseSearchParams
     {
         public int? AnimalOwnerId { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

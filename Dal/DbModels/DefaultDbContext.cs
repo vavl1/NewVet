@@ -38,7 +38,7 @@ public partial class DefaultDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Animals__3214EC07F2EA635F");
 
             entity.Property(e => e.Birthay).HasColumnType("datetime");
-            entity.Property(e => e.IsHealthy)
+            entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
 

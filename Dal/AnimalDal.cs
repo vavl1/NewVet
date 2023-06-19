@@ -31,7 +31,7 @@ namespace Dal
             dbObject.Gender = entity.Gender;
             dbObject.AnimalOwner = entity.AnimalOwner;
             dbObject.PhotoParth = entity.PhotoParth;    
-            dbObject.IsHealthy= entity.IsHealthy;
+            dbObject.IsActive= entity.IsActive;
 
 
 
@@ -43,6 +43,10 @@ namespace Dal
             if (searchParams.AnimalOwnerId != null)
             {
                 dbObjects = dbObjects.Where(i => i.AnimalOwner == searchParams.AnimalOwnerId);
+            }
+            if (searchParams.IsActive != null)
+            {
+                dbObjects = dbObjects.Where(i => i.IsActive == searchParams.IsActive);
             }
 
             return Task.FromResult(dbObjects);
@@ -77,7 +81,7 @@ namespace Dal
                 Breed = dbObject.Breed,
                 AnimalOwner = dbObject.AnimalOwner,
                 PhotoParth = dbObject.PhotoParth,
-                IsHealthy = dbObject.IsHealthy,
+                IsActive = dbObject.IsActive,
                 Diagnoses = dbObject.Diagnoses.Select(DiagnosisDal.ConvertDbObjectToEntity).ToList(),
                
 

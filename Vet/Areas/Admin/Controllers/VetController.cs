@@ -32,7 +32,12 @@ namespace Vet.Areas.Admin.Controllers
                 var result = new List<VetEntity>();
               foreach(var item in vets)
                 {
-                   var disableDates =  GetDisableDates(item.Inspections.Where(k => k.Date.GetValueOrDefault().Day == date.Value.Day && k.Date.GetValueOrDefault().Month == date.Value.Month && k.Date.GetValueOrDefault().Year == date.Value.Year).Select(i => i.Date).ToList()).Result;
+                   var disableDates =  GetDisableDates(item.Inspections
+                       .Where(k => k.Date
+                       .GetValueOrDefault().Day == date.Value.Day && k.Date
+                       .GetValueOrDefault().Month == date.Value.Month && k.Date
+                       .GetValueOrDefault().Year == date.Value.Year)
+                       .Select(i => i.Date).ToList()).Result;
                     if (disableDates.Count() == 0)
                     {
                         result.Add(item);
@@ -44,9 +49,9 @@ namespace Vet.Areas.Admin.Controllers
 
 
 
-            var animals = (await new AnimalOwnerDal().GetAsync(new AnimalOwnerSearchParams())).Objects.Select(i => new SelectListItem { Value = i.Id.ToString(), Text = i.LastName + " " + i.Name + " " + i.FatherName }).ToList();
-            animals.Add(new SelectListItem { Selected = true, Text = "выберите запись", Value = null });
-            ViewBag.AnimalOwners = animals;
+            var animalsOwner = (await new AnimalOwnerDal().GetAsync(new AnimalOwnerSearchParams() { })).Objects.Select(i => new SelectListItem { Value = i.Id.ToString(), Text = i.LastName + " " + i.Name + " " + i.FatherName }).ToList();
+			animalsOwner.Add(new SelectListItem { Selected = true, Text = "выберите запись", Value = null });
+            ViewBag.AnimalOwners = animalsOwner;
             ViewBag.Date = date.GetValueOrDefault().ToShortDateString();
             ViewBag.Search = search;
           
@@ -63,8 +68,10 @@ namespace Vet.Areas.Admin.Controllers
         }
         public async Task<IActionResult> DeleteInspection(int id)
         {
-            try
+			var animal = await new InspectionDal().GetAsync(id);
+			try
             {
+               
                 await new InspectionDal().DeleteAsync(id);
             }
             catch(Exception ex)
@@ -73,7 +80,7 @@ namespace Vet.Areas.Admin.Controllers
             }
             
 
-            return Redirect("/Admin/Vet/Index");
+            return Redirect("/Admin/Vet/DetailsVet/"+animal.VetId);
         }
        
         public  IActionResult AddVet()
@@ -151,7 +158,7 @@ namespace Vet.Areas.Admin.Controllers
                 .GetAsync(new InspectionSearchParams() {
                     CurrentMonth = date??DateTime.Now,
                     VetId = id }))
-                    .Objects.Select(i => i.Date).ToList();
+                    .Objects.OrderBy(i=>i.Date).Select(i => i.Date).ToList();
             var dates = inspections.GroupBy(i => i.Value.Day);
 
             var td = dates.Select(i => new List<string>() {

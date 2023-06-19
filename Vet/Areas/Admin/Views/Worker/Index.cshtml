@@ -44,7 +44,7 @@
                         Время назначения:  @item.Date.GetValueOrDefault().ToShortTimeString();
                     </p>
                     <p class="card-description">
-                        <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.Id" id="">Назначить лечение</button>
+                        <button class="btn btn-outline-primary btn-fw priem" data-bs-toggle="modal" data-bs-target="#exampleModal" data="@item.Id" animal="@item?.Animal?.Id">Назначить лечение</button>
                         
                     </p>
                    
@@ -69,6 +69,7 @@
             <form id="form" action="/Admin/Worker/CreateTreatment" method="post">
                 <div class="modal-body">
                     <input type="hidden" name="InspectionId" id="InspectionId" />
+                    <input type="hidden" name="AnimalId" id="AnimalId" />
                     <input type="hidden" name="VetId" id="VetId" value="@vetId" />
                     <div class="form-group">
                         <label>Диагноз</label>
@@ -101,7 +102,7 @@
            
             $(".priem").click(function(){
                 $("#InspectionId").val($(this).attr("data"));
-                $("#InspectionId").val($(this).attr("data"));
+                $("#AnimalId").val($(this).attr("animal"));
                 
             })
         })

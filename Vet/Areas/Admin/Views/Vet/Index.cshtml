@@ -107,7 +107,7 @@
         <div class="col-md-4 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <img src="@item.PhotoParth" style="width:100px;height:100px;margin-left: auto; margin-right: auto;  display: block; padding-bottom:10px" />
+                    <img src="@item.PhotoParth" style="width:100%; margin-left:auto; margin-right: auto;  display: block; padding-bottom:10px" />
                     <h4 class="card-title">@(item?.Name + " " + item?.LastName + " " + item?.FatherName)</h4>
                     <p class="card-description">
                         телефон:  @item?.Phone
@@ -128,14 +128,15 @@
     }
 
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade row g-3" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form class="" id="form" action="/Admin/Vet/CreateInspection" method="post">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Заявка на приемы</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
             </div>
-            <form class="row g-3" id="form" action="/Admin/Vet/CreateInspection" method="post">
+           
                 <div class="modal-body">
 
                     <input type="hidden" name="Id" value="0" />
@@ -147,24 +148,24 @@
 
                         <div class="col-md-12">
                             <label>Владелец</label>
-                            <select class="form-control" id="select2"  asp-items="@ViewBag.AnimalOwners" style="width:450px">
+                            <select class="form-control" id="select2"  asp-items="@ViewBag.AnimalOwners" style="width:400px">
                             </select>
                         </div>
                       
                         <div class="col-md-12">
                             <label>Питомец</label>
-                            <select class="form-control" id="animals"  style="width:450px" name="AnimalId" required>
+                            <select class="form-control" id="animals"  style="width:400px" name="AnimalId" required>
                             </select>
                         </div>
-                        <div class="col-md-12">
-                            <label>дата приема</label>
+                        <div class="col-md-6">
+                            <label>Дата приема</label>
 
-                            <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Date" style="width:425px" required>
+                            <input type="text" class="form-control form-control-sm" id="datetimepicker2" name="Date" style="width:400px" required>
                         </div>
-                        <div class="col-md-12">
-                            <label>время приема</label>
+                        <div class="col-md-6">
+                            <label>Время приема</label>
 
-                            <input type="text" class="form-control form-control-sm" data-time-format="H:i" id="timepiker" name="Time" style="width:425px" required>
+                            <input type="text" class="form-control form-control-sm" data-time-format="H:i" id="timepiker" name="Time" style="width:400px" required>
                         </div>
 
                         <div class="col-md-12">
@@ -181,9 +182,10 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
-            </form>
+            
         </div>
     </div>
+    </form>
 </div>
 @section Scripts{
     <script>

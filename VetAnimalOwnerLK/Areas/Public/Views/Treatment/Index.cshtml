@@ -45,7 +45,13 @@
                 <td>
                     @(item.Inspection?.Vet?.Name + " " + item.Inspection?.Vet?.FatherName)
                 </td>
-                <td>
+                <td style="max-width: 300px;
+
+text-align: left;
+
+overflow: hidden;
+
+text-overflow: ellipsis;">
                     @item.Description
                 </td>
                 <td>

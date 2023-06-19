@@ -34,7 +34,7 @@ namespace Vet.Areas.Admin.Controllers
                 Id = i.Id,
                 LastName = i.LastName,
                 Phone = i.Phone,
-                CountAnimals = i.Animals.Count
+                CountAnimals = i.Animals.Where(i=> i.IsActive== true).ToList().Count
             }).ToList())); 
             
 
@@ -80,7 +80,7 @@ namespace Vet.Areas.Admin.Controllers
                 }
             };
             ViewBag.AnimalOwnerId = id;
-            var pets = (await new AnimalDal().GetAsync(new AnimalSearchParams() { AnimalOwnerId = id })).Objects.ToList();
+            var pets = (await new AnimalDal().GetAsync(new AnimalSearchParams() { AnimalOwnerId = id, IsActive=true })).Objects.ToList();
             
           
             return View(pets);
@@ -104,7 +104,9 @@ namespace Vet.Areas.Admin.Controllers
             if (id != null)
             {
 
-                var animal = await new AnimalDal().DeleteAsync(id.GetValueOrDefault());
+                var animal = await new AnimalDal().GetAsync(id.GetValueOrDefault());
+                animal.IsActive = false;
+                await new AnimalDal().AddOrUpdateAsync(animal);
                 
 
             }

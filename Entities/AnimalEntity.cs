@@ -22,7 +22,7 @@ namespace Entities
 
         public string? Breed { get; set; }
         public string? PhotoParth { get; set; }
-        public bool? IsHealthy { get; set; }
+        public bool? IsActive { get; set; }
 
         public virtual AnimalOwnerEntity? AnimalOwnerNavigation { get; set; }
 
